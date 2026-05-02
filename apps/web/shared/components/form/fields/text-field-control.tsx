@@ -15,7 +15,6 @@ export function TextFieldInput({ field, control }: any) {
   let maxLength = field.maxLength;
   let disabled = field.disabled;
 
-  // فقط اگر فیلد dynamicIdentifier داشته باشد
   if (field.dynamicIdentifier) {
     const national = useWatch({
       control,
@@ -48,7 +47,7 @@ export function TextFieldInput({ field, control }: any) {
           isRequired={field.required}
           isInvalid={!!fieldState.error}
         >
-          <Label className="text-start">{label}</Label>
+          {label ? <Label className="text-start">{label}</Label> : null}
 
           <Input
             {...rhf}
@@ -57,6 +56,7 @@ export function TextFieldInput({ field, control }: any) {
             placeholder={placeholder}
             disabled={disabled}
             fullWidth
+            variant={field.variant}
             className={field.className}
             maxLength={maxLength}
             onChange={(e) => {

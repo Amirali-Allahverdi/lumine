@@ -6,10 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function AuthBasicInfoPage() {
-  return (
-    <div>
-      <h1 className="mb-4 text-5xl font-bold">لومینه</h1>
-      <BasicInfoForm />
-    </div>
-  );
+  return <BasicInfoForm />;
 }

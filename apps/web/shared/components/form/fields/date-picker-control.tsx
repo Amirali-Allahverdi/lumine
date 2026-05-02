@@ -26,7 +26,7 @@ export function DatePickerField({ field, control }: any) {
           >
             <Label className="text-start">{field.label}</Label>
 
-            <DateField.Group fullWidth dir="ltr">
+            <DateField.Group variant={field.variant} fullWidth dir="ltr">
               <DateField.Input>
                 {(segment) => <DateField.Segment segment={segment} />}
               </DateField.Input>

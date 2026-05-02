@@ -12,6 +12,7 @@ export function SelectField({ field, control }: any) {
         <Select
           selectedKey={rhf.value}
           onSelectionChange={(key) => rhf.onChange(key)}
+          variant={field.variant}
         >
           <Label>{field.label}</Label>
 

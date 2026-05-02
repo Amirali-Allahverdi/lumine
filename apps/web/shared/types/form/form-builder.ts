@@ -18,7 +18,7 @@ export type FieldType =
 
 export interface FieldConfig {
   name: string;
-  label: string;
+  label?: string;
   type: FieldType;
   [key: string]: any;
 
