@@ -1,0 +1,426 @@
+from .models import *
+from rest_framework import generics, views
+from .serializers import *
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from .services import *
+from core.apiResponse.apiResponse import ApiResponse
+from django.contrib.auth.models import Group
+from utils.encryption import encrypt_user_id, decrypt_user_id
+
+
+class SendOtp(views.APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = SendOtpSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        phone_number = serializer.validated_data['phone_number']
+        code = generate_otp(phone_number)
+
+        return ApiResponse.success(
+            message="Send OTP seccessfuly",
+            data={
+                'phone_number': f'{phone_number}',
+                "expired_OTP": 120,
+                "OTP_code": code
+            }
+        )
+
+
+class VerifyOtp(views.APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+
+        serializer = VerifyOtpSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        phone_number = serializer.validated_data['phone_number']
+        code = serializer.validated_data['code']
+
+        verify = verify_otp(phone_number, code)
+        user = User.objects.get(phone_number=phone_number)
+
+        if verify:
+            if user.step_reg == 6:
+                if user.status == "accept":
+                    tokens = get_tokens_for_user(user)
+
+                    return ApiResponse.success(
+                        message="User verified successfully",
+                        data={
+                            "phone_number": phone_number,
+                            "step_registeration": user.step_reg,
+                            "status": user.status,
+                            "tokens": tokens
+                        }
+                    )
+                else:
+                    return ApiResponse.success(
+                        message="User verified successfully",
+                        data={
+                            "phone_number": phone_number,
+                            "step_registeration": user.step_reg,
+                            "status": user.status,
+                            "text_error": user.text_error
+                        }
+                    )
+            
+            else:
+                if verify['created']:
+                    user.step_reg = 1
+                    user.save()
+
+                return ApiResponse.success(
+                    message="User verified successfully",
+                    data={
+                        "user_token": encrypt_user_id(user.id),
+                        "phone_number": phone_number,
+                        "step_registeration": user.step_reg,
+                    }
+                )
+
+        return ApiResponse.error(
+            message="Verify user is failed!",
+            errors={
+                "otp": "Invalid phone number or verification code"
+            }
+        )
+    
+
+# نمونه درخواست:
+# {
+#   "first_name": "",
+#   "last_name": "",
+#   "national_code": "",
+#   "nationality": "",
+#   "gender": "",
+#   "birth_date": ""
+# }
+class BasicInfo(generics.UpdateAPIView):
+    serializer_class = BasicInfoSerializer
+
+    def get_object(self):
+        user_id = decrypt_user_id(self.request.headers.get('token'))
+        user = User.objects.get(id=user_id)
+        return user
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.step_reg == 1:
+            partial = kwargs.pop('partial', False)
+            
+
+            serializer = self.get_serializer(instance, data=request.data, partial=partial)
+            serializer.is_valid(raise_exception=True)
+            self.perform_update(serializer)
+
+            instance.step_reg = 2
+            instance.save()
+
+            return ApiResponse.success(
+                message="User basic info update successfully",
+                data=serializer.data
+            )
+        else:
+            return ApiResponse.error(
+                message="متاسفانه شما دسترسی کافی را ندارید"
+            )
+    
+
+    def partial_update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        return self.update(request, *args, **kwargs)
+    
+
+class SetUserRole(views.APIView):
+    def get_object(self):
+        user_id = decrypt_user_id(self.request.headers.get('token'))
+        user = User.objects.get(id=user_id)
+        return user
+
+
+    def post(self, request):
+        user = self.get_object()
+        if user.step_reg == 2:
+            serializer = SetUserRoleSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+
+            role_name = serializer.validated_data["role"]
+            
+            role_group = Group.objects.get(name=role_name)
+
+
+            user.groups.add(role_group)
+            user.step_reg = 3
+            user.save()
+            return ApiResponse.success(
+                message="نقش کاربر با موفقیت ثبت شد",
+                data={
+                    "user_id": user.id,
+                    "roles_name": list(user.groups.values_list("name", flat=True)),
+                }
+            )
+        else:
+            return ApiResponse.error(
+                message="متاسفانه شما دسترسی کافی را ندارید",
+            )
+    
+
+class GetCategories(generics.ListAPIView):
+    serializer_class = CategoreisSerializer
+    permission_classes = [AllowAny]
+    queryset = Category.objects.all()
+
+
+class PrimaryCategoryAPIView(views.APIView):
+    # def get(self, request):
+    #     user = request.user
+        
+    #     try:
+    #         primary_category = UserCategory.objects.filter(
+    #             user=user, 
+    #             primary=True
+    #         ).select_related('category').first()  
+
+    #         data = {
+    #             "id": primary_category.category.id,
+    #             "name": primary_category.category.name,
+    #             "name_persian": primary_category.category.description
+    #         }
+
+    #         return ApiResponse.success(
+    #             message="fetch primary category successfully",
+    #             data=data
+    #         )
+
+    #     except:
+    #         return ApiResponse.error(
+    #             message="primary category",
+    #             errors={
+    #                 "category_id": "User is not have primary category"
+    #             }
+    #         )
+    def get_object(self):
+        user_id = decrypt_user_id(self.request.headers.get('token'))
+        user = User.objects.get(id=user_id)
+        return user
+
+        
+    def post(self, request):
+        user = self.get_object()
+        if user.step_reg == 3:
+            serializer = PrimaryCategorySerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+
+            category_id = serializer.validated_data['category_id']
+            category = Category.objects.get(id=category_id)
+
+            UserCategory.objects.filter(user=user, primary=True).update(primary=False)
+
+            user_category, created = UserCategory.objects.update_or_create(
+                user=user,
+                category=category,
+                defaults={"primary": True}
+            )
+
+            if created:
+                user.step_reg = 4
+                user.save()
+
+            data = {
+                "id": category.id,
+                "name": category.name,
+                "name_persian": category.description
+            }
+
+            return ApiResponse.success(
+                message="Set primary category successfully",
+                data=data
+            )
+        else:
+            return ApiResponse.error(
+                message="شما دسترسی کافی را ندارید"
+            )
+    
+# {
+#   "height_cm": 170,
+#   "weight_kg": 65,
+#   "skin_color": "light",
+#   "eye_color": "black",
+#   "hair_color": "brown"
+# }
+class TechnicalInfoAPIView(views.APIView):
+    def get_user(self):
+        user_id = decrypt_user_id(self.request.headers.get('token'))
+        user = User.objects.get(id=user_id)
+        return user
+
+
+    def post(self, request):
+        user = self.get_user()
+        if user.step_reg == 4 and user.groups.filter(name="model"):
+            if hasattr(user, "technical_info"):
+                return ApiResponse.error(
+                    message="Thecnical Info already exists"
+                )
+
+            serializer = TechnicalInfoSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save(user=user)
+
+            user.step_reg = 5
+            user.save()
+
+            return ApiResponse.success(
+                message="Thechnical info created successfully",
+                data=serializer.data
+            )
+        else:
+            return ApiResponse.error(
+                message="متاسفانه دسترسی کافی را ندارید",
+            )
+    
+
+
+    # def get_object(self):
+    #     return self.request.user.technical_info
+
+    # def patch(self, request):
+    #     instance = self.get_object()
+
+    #     if not instance:
+    #         return ApiResponse.error(
+    #             message="Techninal info not found"
+    #         )
+        
+    #     serializer = self.get_serializer(instance, data=request.data, partial=True)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+
+    #     return ApiResponse.success(
+    #         message="Technical info updated successfully",
+    #         data=serializer.data 
+    #     )
+    
+
+    # def get(self, request):
+    #     technical_info = self.get_object()
+
+    #     if not technical_info:
+    #         return ApiResponse.error(
+    #             message="technical info not found"
+    #         )
+        
+    #     serializer = self.get_serializer(technical_info)
+
+    #     return ApiResponse.success(
+    #         message="Technical info fetched successfully",
+    #         data=serializer.data
+    #     )
+    
+# {
+#   "company_type": "company",
+#   "company_name": "شرکت اجی بل بل",
+#   "email": "heidari@gmail.com",
+#   "instagram": "",
+#   "website": "",
+#   "city": "Isfahan",
+#   "address": "اصفهان نجف اباد بلوار ازادگان",
+#   "description": ""
+# }
+class EmployerProfileAPIView(views.APIView):
+    def get_user(self):
+        user_id = decrypt_user_id(self.request.headers.get('token'))
+        user = User.objects.get(id=user_id)
+        return user
+
+
+    def post(self, request):
+        user = self.get_user()
+        if user.step_reg == 4 and user.groups.filter(name="employer"):
+            if hasattr(user, "employer_profile"):
+                return ApiResponse.error(
+                    message="Employer profile already exists"
+                )
+
+            serializer = EmployerProfileSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save(user=user)
+
+            user.step_reg = 5
+            user.save()
+
+            return ApiResponse.success(
+                message="Employer profile created successfully",
+                data=serializer.data
+            )
+        else:
+            return ApiResponse.error(
+                message="شما دسترسی کافی را ندارید",
+            )
+    
+
+    # def patch(self, request):
+    #     instance = self.get_object()
+
+    #     if not instance:
+    #         return ApiResponse.error(
+    #             message="Employer profile not found"
+    #         )
+        
+    #     serializer = self.get_serializer(instance, data=request.data, partial=True)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+
+    #     return ApiResponse.success(
+    #         message="Employer profile updated successfully",
+    #         data=serializer.data 
+    #     )
+    
+
+    # def get(self, request):
+    #     employer_profile = self.get_object()
+
+    #     if not employer_profile:
+    #         return ApiResponse.error(
+    #             message="Employer profile not found"
+    #         )
+        
+    #     serializer = self.get_serializer(employer_profile)
+
+    #     return ApiResponse.success(
+    #         message="Employer profile fetched successfully",
+    #         data=serializer.data
+    #     )
+
+
+class InstructorProfileAPIView(views.APIView):
+    def get_user(self):
+        user_id = decrypt_user_id(self.request.headers.get('token'))
+        user = User.objects.get(id=user_id)
+        return user
+
+    def post(self, request):
+        user = self.get_user()
+        if user.step_reg == 4 and user.groups.filter(name="instructor"):
+            if hasattr(user, "instructor_profile"):
+                return ApiResponse.error(
+                    message="Employer profile already exists"
+                )
+
+            serializer = InstructorProfileSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save(user=user)
+
+            user.step_reg = 5
+            user.save()
+
+            return ApiResponse.success(
+                message="Employer profile created successfully",
+                data=serializer.data
+            )
+        else:
+            return ApiResponse.error(
+                message="شما دسترسی کافی را ندارید",
+            )
