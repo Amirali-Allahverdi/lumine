@@ -170,8 +170,12 @@ class SetUserRole(views.APIView):
 class GetCategories(generics.ListAPIView):
     serializer_class = CategoreisSerializer
     permission_classes = [AllowAny]
-    queryset = Category.objects.all()
-
+    
+    def get_queryset(self):
+        type = self.request.headers.get('type')
+        queryset = Category.objects.filter(type=type)
+        return queryset
+    
 
 class PrimaryCategoryAPIView(views.APIView):
     # def get(self, request):
@@ -231,7 +235,8 @@ class PrimaryCategoryAPIView(views.APIView):
             data = {
                 "id": category.id,
                 "name": category.name,
-                "name_persian": category.description
+                "name_persian": category.persion_name,
+                "role_user": user.groups.first().name
             }
 
             return ApiResponse.success(

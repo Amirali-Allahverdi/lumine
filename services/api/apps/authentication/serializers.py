@@ -44,7 +44,7 @@ class SetUserRoleSerializer(serializers.Serializer):
 class CategoreisSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name', 'description', 'is_active']
+        fields = "__all__"
 
 
 class PrimaryCategorySerializer(serializers.Serializer):
