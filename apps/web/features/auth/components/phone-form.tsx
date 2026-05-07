@@ -4,7 +4,7 @@ import FormBuilder from "@/shared/components/form/form-builder";
 import { auth_1FieldConfigPhone } from "../configs/auth_1";
 import { auth_1SchemaPhone } from "../schemas/auth_1";
 import { Divider } from "@heroui/divider";
-import { Surface } from "@heroui/react";
+import { Description, Separator, Surface } from "@heroui/react";
 
 export const PhoneForm = () => {
   const onSubmit = () => {
@@ -12,12 +12,11 @@ export const PhoneForm = () => {
   };
 
   return (
-    <Surface variant="secondary" className="w-sm p-4 rounded-4xl">
-      <p className="text-primary">
-        وقتشه بیای جلوی دوربین ، پول دربیاری و بدرخشی !
-      </p>
-      <Divider className="my-4" />
-      <h3 className="text-2xl font-bold my-4">ورود | ثبت نام</h3>
+    <Surface variant="transparent" className="w-sm p-4">
+      <h3 className="text-2xl font-bold my-1">بیا جلوی دوربین و بدرخش !</h3>
+      <Description className="text-lg text-text-secondary-dark">
+        ورود | ثبت نام
+      </Description>
       <FormBuilder
         fields={auth_1FieldConfigPhone}
         onSubmit={onSubmit}

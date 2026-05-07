@@ -36,6 +36,7 @@ export function OTPField({ field, control }: any) {
             <Label>{field.label}</Label>
 
             <InputOTP
+              variant="secondary"
               className={field.className}
               maxLength={length}
               value={rhf.value}

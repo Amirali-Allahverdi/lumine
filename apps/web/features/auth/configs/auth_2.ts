@@ -7,6 +7,7 @@ export const auth_2FieldConfig: FieldConfig[] = [
     type: "text",
     placeholder: "هستی",
     required: true,
+    variant: "secondary",
   },
   {
     name: "basic-info_lastname",
@@ -14,6 +15,7 @@ export const auth_2FieldConfig: FieldConfig[] = [
     type: "text",
     placeholder: "اثنی عشری",
     required: true,
+    variant: "secondary",
   },
   {
     name: "basic-info_gender",
@@ -24,12 +26,14 @@ export const auth_2FieldConfig: FieldConfig[] = [
       { label: "زن", value: "female" },
     ],
     required: true,
+    variant: "secondary",
   },
   {
     name: "basic-info_birth-day",
     type: "date",
     label: "تاریخ تولد",
     required: true,
+    variant: "secondary",
   },
   {
     name: "basic-info_national",
@@ -40,6 +44,7 @@ export const auth_2FieldConfig: FieldConfig[] = [
       { label: "اتباع", value: "kardo" },
     ],
     required: true,
+    variant: "secondary",
   },
   {
     name: "basic-info_identifier",
@@ -67,5 +72,6 @@ export const auth_2FieldConfig: FieldConfig[] = [
       },
     },
     required: true,
+    variant: "secondary",
   },
 ];

@@ -2,9 +2,9 @@
 
 import FormBuilder from "@/shared/components/form/form-builder";
 import { auth_1FieldConfigOtp } from "../configs/auth_1";
-import { auth_1SchemaPhone } from "../schemas/auth_1";
+import { auth_1SchemaOtp, auth_1SchemaPhone } from "../schemas/auth_1";
 import { Pen } from "lucide-react";
-import { Button, Surface } from "@heroui/react";
+import { Button, Separator, Surface } from "@heroui/react";
 import Link from "next/link";
 
 export const OtpForm = () => {
@@ -13,8 +13,9 @@ export const OtpForm = () => {
   };
 
   return (
-    <Surface variant="secondary" className="w-sm p-4 rounded-4xl">
-      <h3 className="text-2xl font-bold my-4">کد تایید را وارد کنید</h3>
+    <Surface variant="transparent" className="w-sm p-4">
+      <h3 className="text-2xl font-bold my-4">تایید شماره تلفن</h3>
+      <Separator className="mb-4" />
       <Surface
         variant="transparent"
         className="w-full mb-2 flex justify-center items-center"
@@ -30,7 +31,7 @@ export const OtpForm = () => {
       <FormBuilder
         fields={auth_1FieldConfigOtp}
         onSubmit={onSubmit}
-        schema={auth_1SchemaPhone}
+        schema={auth_1SchemaOtp}
         submitButtonText="تایید کد و ادامه"
       />
     </Surface>
