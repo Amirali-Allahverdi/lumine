@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from .services import *
 from core.apiResponse.apiResponse import ApiResponse
 from django.contrib.auth.models import Group
-from utils.encryption import encrypt_user_id, decrypt_user_id
+from utils.encryption import encrypt_user_id
 from utils.mixin import TokenUserMixin
 
 
@@ -16,7 +16,12 @@ class SendOtp(views.APIView):
         serializer = SendOtpSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         phone_number = serializer.validated_data['phone_number']
-        code = generate_otp(phone_number)
+        try:
+            code = generate_otp(phone_number)
+        except:
+            return ApiResponse.error(
+                message="بزار 120ثانیه بگزره بعد خارکصه"
+            )
 
         return ApiResponse.success(
             message="Send OTP seccessfuly",
@@ -40,6 +45,7 @@ class VerifyOtp(views.APIView):
         code = serializer.validated_data['code']
 
         verify = verify_otp(phone_number, code)
+        
         user = User.objects.get(phone_number=phone_number)
 
         if verify:
@@ -100,6 +106,7 @@ class VerifyOtp(views.APIView):
 # }
 class BasicInfo(generics.UpdateAPIView, TokenUserMixin):
     serializer_class = BasicInfoSerializer
+    permission_classes = [AllowAny]
 
     def get_object(self):
         return self.token_user
@@ -133,6 +140,7 @@ class BasicInfo(generics.UpdateAPIView, TokenUserMixin):
     
 
 class SetUserRole(views.APIView, TokenUserMixin):
+    permission_classes = [AllowAny]
     def get_object(self):
         return self.token_user
 
@@ -175,6 +183,8 @@ class GetCategories(generics.ListAPIView):
     
 
 class PrimaryCategoryAPIView(views.APIView, TokenUserMixin):
+    permission_classes = [AllowAny]
+
     # def get(self, request):
     #     user = request.user
         
@@ -250,6 +260,8 @@ class PrimaryCategoryAPIView(views.APIView, TokenUserMixin):
 #   "hair_color": "brown"
 # }
 class TechnicalInfoAPIView(views.APIView, TokenUserMixin):
+    permission_classes = [AllowAny]
+
     def get_user(self):
         return self.token_user
 
@@ -324,6 +336,7 @@ class TechnicalInfoAPIView(views.APIView, TokenUserMixin):
 #   "description": ""
 # }
 class EmployerProfileAPIView(views.APIView, TokenUserMixin):
+    permission_classes = [AllowAny]
     def get_user(self):
         return self.token_user
 
@@ -387,6 +400,7 @@ class EmployerProfileAPIView(views.APIView, TokenUserMixin):
 
 
 class InstructorProfileAPIView(views.APIView, TokenUserMixin):
+    permission_classes = [AllowAny]
     def get_user(self):
         return self.token_user
 
