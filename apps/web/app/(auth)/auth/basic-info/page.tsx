@@ -1,3 +1,4 @@
+import { AuthLogoStepper } from "@/features/auth/components/auth-logo-stepper";
 import { BasicInfoForm } from "@/features/auth/components/basic_info-form";
 import { Metadata } from "next";
 

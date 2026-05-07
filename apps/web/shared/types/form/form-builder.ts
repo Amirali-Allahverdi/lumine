@@ -1,6 +1,9 @@
+import React from "react";
+
 export interface FieldOption {
   value: string | number;
   label: string;
+  icon?: React.ReactNode;
   disabled?: boolean;
 }
 
@@ -41,3 +44,8 @@ export interface FieldConfig {
   onResend?: (value: string) => void;
   timerSeconds?: number;
 }
+
+export type DynamicFieldVisibility = {
+  dependsOn: string;
+  map: Record<string, { visible: boolean }>;
+};
