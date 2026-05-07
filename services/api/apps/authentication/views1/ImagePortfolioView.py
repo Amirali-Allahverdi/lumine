@@ -4,8 +4,11 @@ from rest_framework import views
 from rest_framework.parsers import MultiPartParser, FormParser
 from ..serializers1.ImagePortfolioSerializer import ImagePortfolioSerializer
 from utils.encryption import decrypt_user_id
+from rest_framework.permissions import AllowAny
 
 class ImagePortfolioAPIView(views.APIView):
+    permission_classes = [AllowAny]
+
     parser_classes = [MultiPartParser, FormParser]
 
     def get_user(self):

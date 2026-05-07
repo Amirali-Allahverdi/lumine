@@ -1,6 +1,7 @@
 import random
 from .models import OTP, User
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.core.cache import cache
 
 
 def get_tokens_for_user(user):
@@ -13,21 +14,29 @@ def get_tokens_for_user(user):
 
 
 def generate_otp(phone):
+    key = phone
+
+    if cache.get(key):
+        raise Exception("OTP already sent. Try later")
+    
     code = str(random.randint(100000, 999999))
-    OTP.objects.create(phone_number=phone, code=code)
-    print(f'OTP for {phone}: {code}')
+    cache.set(key, code, timeout=120)
+    
     return code
 
 
+
 def verify_otp(phone, code):
-    code = OTP.objects.filter(phone_number=phone, code=code).last()
-    
-    if not code or code.is_expired():
+    stored_code = cache.get(phone)
+
+    if stored_code != code:
         return False
     
-    else:
-        user, created = User.objects.get_or_create(phone_number=phone)
-        return {
-            'user': user,
-            'created': created
-        }
+    cache.delete(phone)
+    user, created = User.objects.get_or_create(phone_number=phone)
+    data = {
+        "user": user,
+        "created": created
+    }
+    return data
+        
