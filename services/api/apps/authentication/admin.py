@@ -44,7 +44,7 @@ class OTPAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'description', 'created']
+    list_display = ['id', 'type', 'name', 'persion_name', 'created']
 
 
 @admin.register(UserCategory)
