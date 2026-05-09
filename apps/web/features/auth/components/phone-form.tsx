@@ -2,13 +2,17 @@
 
 import FormBuilder from "@/shared/components/form/form-builder";
 import { auth_1FieldConfigPhone } from "../configs/auth_1";
-import { auth_1SchemaPhone } from "../schemas/auth_1";
-import { Divider } from "@heroui/divider";
-import { Description, Separator, Surface } from "@heroui/react";
+import { Auth_1PhoneType, auth_1SchemaPhone } from "../schemas/auth_1";
+import { Description, Surface } from "@heroui/react";
+import { useSendPhoneOtp } from "../hooks/mutations/use-send-phone-otp";
 
 export const PhoneForm = () => {
-  const onSubmit = () => {
-    console.log("data");
+  const { mutate, isPending } = useSendPhoneOtp();
+
+  const onSubmit = (data: Auth_1PhoneType) => {
+    mutate({
+      phone_number: data.phone_number,
+    });
   };
 
   return (
