@@ -38,4 +38,3 @@ def verify_otp(phone, code):
         "created": created
     }
     return data
-        
