@@ -5,7 +5,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from .services import *
 from core.apiResponse.apiResponse import ApiResponse
 from django.contrib.auth.models import Group
-from utils.encryption import encrypt_user_id, decrypt_user_id
+from utils.encryption import encrypt_user_id
+from utils.mixin import TokenUserMixin
 
 
 class SendOtp(views.APIView):
@@ -15,7 +16,12 @@ class SendOtp(views.APIView):
         serializer = SendOtpSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         phone_number = serializer.validated_data['phone_number']
-        code = generate_otp(phone_number)
+        try:
+            code = generate_otp(phone_number)
+        except:
+            return ApiResponse.error(
+                message="بزار 120ثانیه بگزره بعد خارکصه"
+            )
 
         return ApiResponse.success(
             message="Send OTP seccessfuly",
@@ -39,6 +45,7 @@ class VerifyOtp(views.APIView):
         code = serializer.validated_data['code']
 
         verify = verify_otp(phone_number, code)
+        
         user = User.objects.get(phone_number=phone_number)
 
         if verify:
@@ -97,13 +104,12 @@ class VerifyOtp(views.APIView):
 #   "gender": "",
 #   "birth_date": ""
 # }
-class BasicInfo(generics.UpdateAPIView):
+class BasicInfo(generics.UpdateAPIView, TokenUserMixin):
     serializer_class = BasicInfoSerializer
+    permission_classes = [AllowAny]
 
     def get_object(self):
-        user_id = decrypt_user_id(self.request.headers.get('token'))
-        user = User.objects.get(id=user_id)
-        return user
+        return self.token_user
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -133,11 +139,10 @@ class BasicInfo(generics.UpdateAPIView):
         return self.update(request, *args, **kwargs)
     
 
-class SetUserRole(views.APIView):
+class SetUserRole(views.APIView, TokenUserMixin):
+    permission_classes = [AllowAny]
     def get_object(self):
-        user_id = decrypt_user_id(self.request.headers.get('token'))
-        user = User.objects.get(id=user_id)
-        return user
+        return self.token_user
 
 
     def post(self, request):
@@ -177,7 +182,9 @@ class GetCategories(generics.ListAPIView):
         return queryset
     
 
-class PrimaryCategoryAPIView(views.APIView):
+class PrimaryCategoryAPIView(views.APIView, TokenUserMixin):
+    permission_classes = [AllowAny]
+
     # def get(self, request):
     #     user = request.user
         
@@ -206,11 +213,8 @@ class PrimaryCategoryAPIView(views.APIView):
     #             }
     #         )
     def get_object(self):
-        user_id = decrypt_user_id(self.request.headers.get('token'))
-        user = User.objects.get(id=user_id)
-        return user
+        return self.token_user
 
-        
     def post(self, request):
         user = self.get_object()
         if user.step_reg == 3:
@@ -255,12 +259,11 @@ class PrimaryCategoryAPIView(views.APIView):
 #   "eye_color": "black",
 #   "hair_color": "brown"
 # }
-class TechnicalInfoAPIView(views.APIView):
-    def get_user(self):
-        user_id = decrypt_user_id(self.request.headers.get('token'))
-        user = User.objects.get(id=user_id)
-        return user
+class TechnicalInfoAPIView(views.APIView, TokenUserMixin):
+    permission_classes = [AllowAny]
 
+    def get_user(self):
+        return self.token_user
 
     def post(self, request):
         user = self.get_user()
@@ -286,7 +289,6 @@ class TechnicalInfoAPIView(views.APIView):
                 message="متاسفانه دسترسی کافی را ندارید",
             )
     
-
 
     # def get_object(self):
     #     return self.request.user.technical_info
@@ -323,7 +325,6 @@ class TechnicalInfoAPIView(views.APIView):
     #         message="Technical info fetched successfully",
     #         data=serializer.data
     #     )
-    
 # {
 #   "company_type": "company",
 #   "company_name": "شرکت اجی بل بل",
@@ -334,12 +335,10 @@ class TechnicalInfoAPIView(views.APIView):
 #   "address": "اصفهان نجف اباد بلوار ازادگان",
 #   "description": ""
 # }
-class EmployerProfileAPIView(views.APIView):
+class EmployerProfileAPIView(views.APIView, TokenUserMixin):
+    permission_classes = [AllowAny]
     def get_user(self):
-        user_id = decrypt_user_id(self.request.headers.get('token'))
-        user = User.objects.get(id=user_id)
-        return user
-
+        return self.token_user
 
     def post(self, request):
         user = self.get_user()
@@ -400,11 +399,10 @@ class EmployerProfileAPIView(views.APIView):
     #     )
 
 
-class InstructorProfileAPIView(views.APIView):
+class InstructorProfileAPIView(views.APIView, TokenUserMixin):
+    permission_classes = [AllowAny]
     def get_user(self):
-        user_id = decrypt_user_id(self.request.headers.get('token'))
-        user = User.objects.get(id=user_id)
-        return user
+        return self.token_user
 
     def post(self, request):
         user = self.get_user()
