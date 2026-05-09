@@ -25,7 +25,6 @@ def generate_otp(phone):
     return code
 
 
-
 def verify_otp(phone, code):
     stored_code = cache.get(phone)
 
@@ -39,4 +38,3 @@ def verify_otp(phone, code):
         "created": created
     }
     return data
-        
