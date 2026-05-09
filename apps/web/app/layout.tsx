@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { Providers } from "./providers";
 import { Metadata, Viewport } from "next";
 import { siteConfig } from "@/config/site";
+import { Toast } from "@heroui/react";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -43,6 +44,7 @@ export default function RootLayout({
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           {children}
         </Providers>
+        <Toast.Provider placement="top" />
       </body>
     </html>
   );

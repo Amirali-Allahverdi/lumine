@@ -1,21 +1,19 @@
 import { QueryClient, QueryCache, MutationCache } from "@tanstack/react-query";
 
-function queryErrorHandler(error: unknown) {
-  console.error("Query Error:", error);
-}
-
-function mutationErrorHandler(error: unknown) {
-  console.error("Mutation Error:", error);
-}
+import { handleError } from "./error-handlers";
 
 export const createQueryClient = () =>
   new QueryClient({
     queryCache: new QueryCache({
-      onError: queryErrorHandler,
+      onError: (error) => {
+        handleError(error, "Query");
+      },
     }),
 
     mutationCache: new MutationCache({
-      onError: mutationErrorHandler,
+      onError: (error) => {
+        handleError(error, "Mutation");
+      },
     }),
 
     defaultOptions: {
