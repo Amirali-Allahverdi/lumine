@@ -1,3 +1,4 @@
+import { AuthLogoStepper } from "@/features/auth/components/auth-logo-stepper";
 import { BasicInfoForm } from "@/features/auth/components/basic_info-form";
 import { Metadata } from "next";
 
@@ -6,10 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function AuthBasicInfoPage() {
-  return (
-    <div>
-      <h1 className="mb-4 text-5xl font-bold">لومینه</h1>
-      <BasicInfoForm />
-    </div>
-  );
+  return <BasicInfoForm />;
 }

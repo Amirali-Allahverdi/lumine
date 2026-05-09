@@ -20,11 +20,13 @@ export function RadioField({ field, control }: any) {
           value={rhf.value}
           variant="secondary"
           onChange={rhf.onChange}
-          className={``}
         >
           <Label className="text-start mb-1">{field.label}</Label>
 
-          <Surface className="flex items-start gap-6 p-2 rounded-xl">
+          <Surface
+            variant={field.variant}
+            className="flex items-start gap-6 p-2 rounded-xl"
+          >
             {field.options?.map((opt: any) => (
               <Radio key={opt.value} value={opt.value} className={`m-0`}>
                 <Radio.Control>

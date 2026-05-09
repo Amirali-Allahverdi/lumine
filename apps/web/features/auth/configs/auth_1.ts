@@ -3,12 +3,12 @@ import { FieldConfig } from "@/shared/types/form/form-builder";
 export const auth_1FieldConfigPhone: FieldConfig[] = [
   {
     name: "phone_number",
-    label: "لطفا شماره تلفن خود را وارد کنید",
     type: "text",
-    placeholder: "0912-000-0000",
+    placeholder: "لطفا شماره تماس خود را وارد کنید",
     required: true,
     description: "شماره تماس با 09 شروع میشود و 11 رقم دارد",
     className: "text-center my-2",
+    variant: "secondary",
   },
 ];
 

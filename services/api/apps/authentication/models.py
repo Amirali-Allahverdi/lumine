@@ -82,15 +82,24 @@ class OTP(models.Model):
 
 
 class Category(models.Model):
+    CHOICES_TYPE = [
+        ('model', 'مدل'),
+        ('instructor', 'مدرس'),
+        ('employer', 'کارفرما'),
+    ]
     name = models.CharField(max_length=250)
-    description = models.CharField(max_length=250, null=True, blank=True)
+    persion_name = models.CharField(max_length=250, null=True, blank=True)
+    type = models.CharField(max_length=250, choices=CHOICES_TYPE, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     created = jDateTimeField(auto_now_add=True)
     updated = jDateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['created']
-        indexes = [models.Index(fields=['name'])]
+        indexes = [
+            models.Index(fields=['name']),
+            models.Index(fields=['type']),
+        ]
 
     def __str__(self):
         return self.name
