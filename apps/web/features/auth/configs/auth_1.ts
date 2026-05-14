@@ -14,7 +14,7 @@ export const auth_1FieldConfigPhone: FieldConfig[] = [
 
 export const auth_1FieldConfigOtp: FieldConfig[] = [
   {
-    name: "otp",
+    name: "code",
     label: "کد ارسال شده به شماره بالا را وارد کنید",
     type: "otp",
     required: true,

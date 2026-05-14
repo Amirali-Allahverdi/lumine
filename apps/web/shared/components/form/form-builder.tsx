@@ -55,7 +55,7 @@ function FormBuilder<TSchema extends ZodObject<any>>({
         type="submit"
         isDisabled={!isValid || isSubmitting}
         fullWidth
-        className="mt-4"
+        className="mt-4 rounded-xl"
       >
         {isSubmitting ? "درحال پردازش..." : submitButtonText}
       </Button>
