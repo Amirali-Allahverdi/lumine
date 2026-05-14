@@ -17,9 +17,9 @@ export const PhoneForm = () => {
 
   return (
     <Surface variant="transparent" className="w-sm p-4">
-      <h3 className="text-2xl font-bold my-1">بیا جلوی دوربین و بدرخش !</h3>
+      <h3 className="text-3xl font-bold mt-1 mb-4">به لومینه خوش اومدی</h3>
       <Description className="text-lg text-text-secondary-dark">
-        ورود | ثبت نام
+        ورود یا ثبت نام
       </Description>
       <FormBuilder
         fields={auth_1FieldConfigPhone}
