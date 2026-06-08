@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { boolean, z, ZodObject } from "zod";
+import { z, ZodObject } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, Button } from "@heroui/react";
 import { renderField } from "./renderField";

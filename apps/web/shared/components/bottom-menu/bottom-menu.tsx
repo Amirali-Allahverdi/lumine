@@ -3,13 +3,14 @@ import { BottomMenuLink } from "./bottom-menu-link";
 import { getBottomNavItems } from "@/shared/helpers/navigation";
 import NextLink from "next/link";
 import { User } from "lucide-react";
+import { PersonFill } from "@gravity-ui/icons";
 
 export const BottomMenu = () => {
   const items = getBottomNavItems(siteConfig.navItems, [
     {
       label: "پروفایل",
       href: "/profile",
-      icon: <User />,
+      icon: <PersonFill />,
     },
   ]);
 

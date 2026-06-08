@@ -1,6 +1,7 @@
 import { Navbar } from "@/shared/components/navbar";
 import { Sidebar } from "@/shared/components/sidebar/sidebar";
 import { BottomMenu } from "@/shared/components/bottom-menu/bottom-menu";
+import { SidebarIsland } from "@/shared/components/sidebar/sidebar-islnad/sidebar-island";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -1,0 +1,69 @@
+.iconBoxContainer {
+  position: relative;
+  border: 3px solid transparent;
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+
+  /* استفاده از متغیر برای بک‌گراند پایه در صورت تغییر Variant */
+  background-color: var(--iconbox-bg-light, transparent);
+
+  /* گرادیانت دقیق برای حاشیه (Border) با متغیرهای داینامیک */
+  background-image:
+    linear-gradient(to right, transparent, transparent),
+    linear-gradient(
+      135deg,
+      var(--iconbox-btl-light, rgba(255, 255, 255, 0.8)) 20%,
+      rgba(0, 0, 0, 0.04) 40%,
+      rgba(0, 0, 0, 0.04) 60%,
+      var(--iconbox-bbr-light, rgba(0, 0, 0, 0.15)) 100%
+    );
+
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  transition: all 0.3s ease;
+}
+
+.iconBoxInnerGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  pointer-events: none;
+
+  /* بازگرداندن گرادیانت شعاعی زیبا با رنگ‌های اصلی شما */
+  background: radial-gradient(circle at center, #ffffff 0%, #f1f1f1 100%);
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.iconWrapper {
+  color: var(--iconbox-icon-light, #111111);
+  transition: color 0.3s ease;
+  position: relative;
+  z-index: 10;
+}
+
+/* ---------------------------
+   Dark Mode Overrides
+--------------------------- */
+:global(.dark) .iconBoxContainer {
+  background-color: var(--iconbox-bg-dark, transparent);
+  background-image:
+    linear-gradient(to right, transparent, transparent),
+    linear-gradient(
+      135deg,
+      var(--iconbox-btl-dark, rgba(255, 255, 255, 0.235)) 20%,
+      rgba(59, 59, 59, 0.235) 40%,
+      rgba(59, 59, 59, 0.235) 60%,
+      var(--iconbox-bbr-dark, rgba(255, 255, 255, 0.235)) 100%
+    );
+}
+
+:global(.dark) .iconBoxInnerGlow {
+  /* بازگرداندن گرادیانت دارک مود برای حفظ عمق و استایل iOS 26 */
+  background: radial-gradient(circle at center, #18181b 0%, #222226 100%);
+}
+
+:global(.dark) .iconWrapper {
+  color: var(--iconbox-icon-dark, #f5f5f5);
+}

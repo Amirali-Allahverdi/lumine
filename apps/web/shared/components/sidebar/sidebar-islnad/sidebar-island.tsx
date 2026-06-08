@@ -1,9 +1,9 @@
 "use client";
 import { siteConfig } from "@/config/site";
-import { SidebarLink } from "./sidebar-link";
+import { SidebarIslandLink } from "./sidebar-island_link";
 import Image from "next/image";
 
-export const Sidebar = () => {
+export const SidebarIsland = () => {
   return (
     <aside className="w-fit hidden h-screen p-0.5 overflow-y-auto border-l border-border sm:flex flex-col items-center">
       <Image
@@ -16,7 +16,7 @@ export const Sidebar = () => {
 
       <section className="w-fit p-2 rounded-3xl">
         {siteConfig.navItems.map((item, index) => (
-          <SidebarLink
+          <SidebarIslandLink
             key={item.label}
             item={item}
             index={index}

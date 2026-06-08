@@ -1,19 +1,25 @@
 export type SiteConfig = typeof siteConfig;
-import { NavMenuItem } from "@/types/site";
+import { NavMenuItem } from "@/shared/types/site";
 import {
-  HomeIcon,
   XCircle,
-  Briefcase,
-  MessageCircle,
   UserIcon,
-  Settings,
-  Bell,
   Component,
   Activity,
   Clock,
   CheckCircle,
   BellDot,
 } from "lucide-react";
+import {
+  House,
+  Briefcase,
+  Bell,
+  Comment,
+  Gear,
+  HouseFill,
+  BriefcaseFill,
+  BellFill,
+  CommentFill,
+} from "@gravity-ui/icons";
 
 export const siteConfig = {
   name: "لومینه",
@@ -23,13 +29,14 @@ export const siteConfig = {
     {
       label: "خانه",
       href: "/",
-      icon: <HomeIcon />,
+      icon: <HouseFill className="scale-150" />,
       type: "link",
     },
     {
       label: "پروژه ها",
-      icon: <Briefcase />,
-      type: "dropdown",
+      icon: <BriefcaseFill className="scale-150" />,
+      type: "link",
+      href: "/projects",
       items: [
         {
           label: "همه",
@@ -60,8 +67,9 @@ export const siteConfig = {
     },
     {
       label: "اعلانات",
-      icon: <Bell />,
-      type: "dropdown",
+      icon: <BellFill className="scale-150" />,
+      type: "link",
+      href: "/notifications",
       items: [
         {
           label: "همه",
@@ -83,7 +91,7 @@ export const siteConfig = {
     {
       label: "پیام ها",
       href: "/messages",
-      icon: <MessageCircle />,
+      icon: <CommentFill className="scale-150" />,
       type: "link",
     },
   ] as NavMenuItem[],
@@ -103,7 +111,7 @@ export const siteConfig = {
       type: "modal",
       label: "تنظیمات",
       modalId: "settings",
-      icon: <Settings />,
+      icon: <Gear className="scale-150" />,
     },
     {
       type: "link",

@@ -5,7 +5,7 @@ import NextLink from "next/link";
 import { NavMenuItem } from "@/shared/types/site";
 import { usePathname } from "next/navigation";
 import { ChevronDown, ChevronLeft } from "lucide-react";
-import { SidebarItem } from "./sidebar-item";
+import { SidebarIslandItem } from "./sidebar-island_item";
 
 type Props = {
   item: NavMenuItem;
@@ -13,7 +13,7 @@ type Props = {
   total: number;
 };
 
-export const SidebarLink: React.FC<Props> = ({ item }) => {
+export const SidebarIslandLink: React.FC<Props> = ({ item }) => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -21,7 +21,7 @@ export const SidebarLink: React.FC<Props> = ({ item }) => {
     const isActive = pathname === item.href;
 
     return (
-      <SidebarItem
+      <SidebarIslandItem
         href={item.href}
         icon={item.icon}
         label={item.label}
@@ -33,7 +33,7 @@ export const SidebarLink: React.FC<Props> = ({ item }) => {
 
   if (item.type === "modal") {
     return (
-      <SidebarItem
+      <SidebarIslandItem
         icon={item.icon}
         label={item.label}
         onClick={() =>
@@ -50,7 +50,7 @@ export const SidebarLink: React.FC<Props> = ({ item }) => {
 
     return (
       <div className="w-full">
-        <SidebarItem
+        <SidebarIslandItem
           icon={item.icon}
           label={item.label}
           active={isDropdownActive}
