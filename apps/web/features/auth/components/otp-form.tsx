@@ -2,11 +2,7 @@
 
 import FormBuilder from "@/shared/components/form/form-builder";
 import { auth_1FieldConfigOtp } from "../configs/auth_1";
-import {
-  Auth_1OtpType,
-  auth_1SchemaOtp,
-  auth_1SchemaPhone,
-} from "../schemas/auth_1";
+import { Auth_1OtpType, auth_1SchemaOtp } from "../schemas/auth_1";
 import { Pen } from "lucide-react";
 import { Separator, Surface } from "@heroui/react";
 import Link from "next/link";
@@ -45,6 +41,7 @@ export const OtpForm = () => {
         fields={auth_1FieldConfigOtp}
         onSubmit={onSubmit}
         schema={auth_1SchemaOtp}
+        defaultValues={{ phone_number: phoneNumber, code: "" } as Auth_1OtpType}
         submitButtonText="تایید کد و ادامه"
       />
     </Surface>
