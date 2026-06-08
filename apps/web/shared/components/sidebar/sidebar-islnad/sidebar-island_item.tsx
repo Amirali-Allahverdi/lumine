@@ -7,9 +7,10 @@ type BaseItemProps = {
   rightIcon?: React.ReactNode;
   onClick?: () => void;
   href?: string;
+  count?: number;
 };
 
-export const SidebarItem = ({
+export const SidebarIslandItem = ({
   icon,
   label,
   active,

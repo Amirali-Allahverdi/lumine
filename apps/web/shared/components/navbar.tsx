@@ -7,9 +7,7 @@ import {
   NavbarMenuToggle,
   NavbarMenuItem,
 } from "@heroui/navbar";
-import { Button } from "@heroui/button";
-import { Link } from "@heroui/link";
-import { Input } from "@heroui/input";
+import { Button, Input } from "@heroui/react";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/shared/components/theme-switch";
@@ -22,23 +20,12 @@ import {
   Ellipse,
   Ellipsis,
 } from "lucide-react";
+import Link from "next/link";
+import { Gear, Person } from "@gravity-ui/icons";
 
 export const Navbar = () => {
   const searchInput = (
-    <Input
-      aria-label="Search"
-      classNames={{
-        inputWrapper: "bg-default-100",
-        input: "text-sm",
-      }}
-      labelPlacement="outside"
-      radius="full"
-      placeholder="جستجو کنید ..."
-      startContent={
-        <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-      }
-      type="search"
-    />
+    <Input aria-label="Search" placeholder="جستجو کنید ..." type="search" />
   );
 
   return (
@@ -46,23 +33,15 @@ export const Navbar = () => {
       maxWidth="full"
       style={{ background: "transparent" }}
       position="sticky"
+      className="border-b border-border"
     >
       <NavbarContent className="flex basis-1/5 sm:basis-full" justify="start">
         <Button
           isIconOnly
           size="lg"
-          radius="full"
-          className="shadow-2xl bg-surface-secondary-light dark:bg-surface-secondary-dark"
+          className="shadow-2xl bg-surface-secondary-light text-surface-secondary-dark dark:text-surface-secondary-light dark:bg-surface-secondary-dark"
         >
           <ChevronRight />
-        </Button>
-        <Button
-          isIconOnly
-          size="lg"
-          radius="full"
-          className="shadow-2xl hidden sm:flex bg-surface-secondary-light dark:bg-surface-secondary-dark"
-        >
-          <ChevronLeft />
         </Button>
       </NavbarContent>
 
@@ -71,13 +50,14 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent justify="end">
-        <Button
-          isIconOnly
-          radius="full"
-          className="bg-transparent text-text-placeholder-light dark:text-text-placeholder-dark"
-        >
-          <CircleEllipsis size={30} />
-        </Button>
+        <div className="dark:bg-surface-elevated-dark scale-125 bg-surface-elevated-light flex gap-5 p-2 rounded-full">
+          <Link href={`/settings`}>
+            <Gear />
+          </Link>
+          <Link href={`/profile`}>
+            <Person />
+          </Link>
+        </div>
         <ThemeSwitch />
       </NavbarContent>
     </HeroUINavbar>

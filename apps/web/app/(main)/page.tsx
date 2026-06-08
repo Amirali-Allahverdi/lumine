@@ -1,3 +1,5 @@
+import { IconBox } from "@/shared/components/ui/glass-icon";
+import { Person } from "@gravity-ui/icons";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
