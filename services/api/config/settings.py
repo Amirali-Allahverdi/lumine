@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 from cryptography.fernet import Fernet
+from corsheaders.defaults import default_headers
 
 # key = Fernet.generate_key()
 FERNET_KEY = b'oshcQny3FemeLrrYXk0RJNPbbojFrQWaMwSXTlI38_M='
@@ -194,5 +195,21 @@ SIMPLE_JWT = {
 # Cors Setting
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://127.0.0.1:5500",
 ]
 CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_HEADERS = list(default_headers) + ["token", ]
+
+# ---------------------
+# Redis Settings
+# ---------------------
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379/1",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }
