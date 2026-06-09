@@ -25,3 +25,12 @@ export const auth_1FieldConfigOtp: FieldConfig[] = [
     timerSeconds: 10,
   },
 ];
+
+export const STEP_ROUTES: Record<number, string> = {
+  1: "/auth/basic-info",
+  2: "/auth/technical-info",
+  3: "/auth/",
+  4: "/auth/",
+  5: "/auth/",
+  6: "/",
+};

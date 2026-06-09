@@ -16,8 +16,8 @@ export const BottomMenu = () => {
 
   return (
     <>
-      <div className="w-full sm:hidden block h-32 bg-gradient-to-t from-background/95 via-background/50 to-transparent fixed bottom-0" />
-      <nav className="fixed left-1/2 -translate-x-1/2 p-1 rounded-full bottom-4 flex sm:hidden w-full backdrop-blur-3xl justify-between items-center">
+      {/* <div className="w-full sm:hidden block h-32 bg-gradient-to-t from-background/95 via-background/50 to-transparent fixed bottom-0" /> */}
+      <nav className="fixed left-1/2 -translate-x-1/2 p-1 rounded-full bottom-4 flex sm:hidden w-full backdrop-blur-2xl justify-between items-center">
         {items.map((item, index) => (
           <BottomMenuLink
             key={index}

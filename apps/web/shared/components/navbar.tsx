@@ -31,34 +31,37 @@ export const Navbar = () => {
   return (
     <HeroUINavbar
       maxWidth="full"
-      style={{ background: "transparent" }}
       position="sticky"
-      className="border-b border-border"
+      isBlurred={false}
+      className="bg-transparent top-2"
     >
       <NavbarContent className="flex basis-1/5 sm:basis-full" justify="start">
         <Button
           isIconOnly
           size="lg"
-          className="shadow-2xl bg-surface-secondary-light text-surface-secondary-dark dark:text-surface-secondary-light dark:bg-surface-secondary-dark"
+          className="shadow-2xl bg-transparent backdrop-blur-2xl border-1 border-border px-4 rounded-full"
         >
-          <ChevronRight />
+          <ChevronRight className="size-5" />
         </Button>
       </NavbarContent>
 
-      <NavbarContent justify="center">
+      <NavbarContent
+        justify="center"
+        className="backdrop-blur-xl border-1 border-border px-4 rounded-full"
+      >
         <h2 className="text-2xl">عنوان صفحه</h2>
       </NavbarContent>
 
       <NavbarContent justify="end">
-        <div className="dark:bg-surface-elevated-dark scale-125 bg-surface-elevated-light flex gap-5 p-2 rounded-full">
+        <div className="backdrop-blur-xl flex gap-6 border-1 border-border p-4 rounded-full">
           <Link href={`/settings`}>
-            <Gear />
+            <Gear className="size-5" />
           </Link>
           <Link href={`/profile`}>
-            <Person />
+            <Person className="size-5" />
           </Link>
         </div>
-        <ThemeSwitch />
+        {/* <ThemeSwitch /> */}
       </NavbarContent>
     </HeroUINavbar>
   );
