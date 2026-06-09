@@ -18,18 +18,33 @@ class SendOtp(views.APIView):
         phone_number = serializer.validated_data['phone_number']
         try:
             code = generate_otp(phone_number)
-        except:
+
+        except TooManyRequestsError:
             return ApiResponse.error(
-                message="بزار 120ثانیه بگزره بعد خارکصه"
+                message="لطفاً تا ۱۲۰ ثانیه دیگر دوباره تلاش کنید.",
+                errors={
+                    "code": "OTP_WAIT_TIME",
+                    "retry_after": 120
+                },
+                status_code=429
+            )
+        
+        except Exception:
+            return ApiResponse.error(
+                message="خطایی در ارسال کد تأیید رخ داد. لطفاً دوباره تلاش کنید.",
+                errors={
+                    "code": "OTP_SEND_FAILED"
+                },
+                status_code=500
             )
 
         return ApiResponse.success(
-            message="Send OTP seccessfuly",
+            message="کد تأیید با موفقیت ارسال شد.",
             data={
-                'phone_number': f'{phone_number}',
+                "phone_number": phone_number,
                 "expired_OTP": 120,
-                "OTP_code": code
-            }
+            },
+            status_code=200
         )
 
 
@@ -54,9 +69,8 @@ class VerifyOtp(views.APIView):
                     tokens = get_tokens_for_user(user)
 
                     return ApiResponse.success(
-                        message="User verified successfully",
+                        message=".خوش آمدید",
                         data={
-                            "phone_number": phone_number,
                             "step_registeration": user.step_reg,
                             "status": user.status,
                             "tokens": tokens
@@ -64,9 +78,8 @@ class VerifyOtp(views.APIView):
                     )
                 else:
                     return ApiResponse.success(
-                        message="User verified successfully",
+                        message="درخواست شما در حال بررسی است.",
                         data={
-                            "phone_number": phone_number,
                             "step_registeration": user.step_reg,
                             "status": user.status,
                             "text_error": user.text_error
@@ -79,18 +92,17 @@ class VerifyOtp(views.APIView):
                     user.save()
 
                 return ApiResponse.success(
-                    message="User verified successfully",
+                    message="لطفا ادامه مراحل ثبت‌نام را تکمیل کنید.",
                     data={
                         "user_token": encrypt_user_id(user.id),
-                        "phone_number": phone_number,
                         "step_registeration": user.step_reg,
                     }
                 )
 
         return ApiResponse.error(
-            message="Verify user is failed!",
+            message="کد تایید صحیح نیست!",
             errors={
-                "otp": "Invalid phone number or verification code"
+                "otp": "Invalid verification code"
             }
         )
     
@@ -125,12 +137,12 @@ class BasicInfo(generics.UpdateAPIView, TokenUserMixin):
             instance.save()
 
             return ApiResponse.success(
-                message="User basic info update successfully",
+                message="اطلاعات پایه با موفقیت ثبت شد.",
                 data=serializer.data
             )
         else:
             return ApiResponse.error(
-                message="متاسفانه شما دسترسی کافی را ندارید"
+                message="لطفا شماره خود را تایید کنید.",
             )
     
 
@@ -325,6 +337,7 @@ class TechnicalInfoAPIView(views.APIView, TokenUserMixin):
     #         message="Technical info fetched successfully",
     #         data=serializer.data
     #     )
+
 # {
 #   "company_type": "company",
 #   "company_name": "شرکت اجی بل بل",
