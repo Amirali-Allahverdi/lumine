@@ -199,7 +199,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOW_HEADERS = list(default_headers) + ["token", ]
+CORS_ALLOW_HEADERS = list(default_headers) + ["token", "type"]
 
 # ---------------------
 # Redis Settings
