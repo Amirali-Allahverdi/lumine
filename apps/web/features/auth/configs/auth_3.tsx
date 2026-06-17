@@ -1,9 +1,11 @@
 import { GraduationCap, Briefcase, Person } from "@gravity-ui/icons";
 import { FieldConfig } from "@/shared/types/form/form-builder";
+import { getCategories } from "../api/auth_3";
+import { UserRole } from "../types/auth_3";
 
 export const auth_3FieldConfig: FieldConfig[] = [
   {
-    name: "technical-info_set-role",
+    name: "role",
     type: "select",
     variant: "secondary",
     label: "نقش خود را انتخاب کنید",
@@ -15,40 +17,22 @@ export const auth_3FieldConfig: FieldConfig[] = [
     placeholder: "نقش شما",
     required: true,
   },
-
   {
-    name: "technical-info_role-category",
+    name: "category",
     type: "select",
     variant: "secondary",
     label: "دسته بندی خود را انتخاب کنید",
     placeholder: "دسته بندی",
     dynamicIdentifier: {
-      dependsOn: "technical-info_set-role",
-
+      dependsOn: "role",
       defaultDisabled: true,
       defaultOptions: [],
-
-      map: {
-        model: {
-          options: [
-            { label: "مدل تجاری", value: "business" },
-            { label: "مدل تبلیغاتی", value: "promo" },
-          ],
-        },
-
-        instructor: {
-          options: [
-            { label: "مدرس زبان", value: "lang" },
-            { label: "مدرس هنری", value: "art" },
-          ],
-        },
-
-        employer: {
-          options: [
-            { label: "استخدام تمام‌وقت", value: "full" },
-            { label: "قراردادی", value: "contract" },
-          ],
-        },
+      queryFn: async (role: string) => {
+        const categories = await getCategories(role as UserRole);
+        return categories.map((cat) => ({
+          label: cat.persion_name,
+          value: String(cat.id),
+        }));
       },
     },
   },

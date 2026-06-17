@@ -3,17 +3,17 @@ import z from "zod";
 export const auth_3SchemaTechnicalInfo = z
 
   .object({
-    "technical-info_set-role": z.enum(["model", "instructor", "employer"], {
+    role: z.enum(["model", "instructor", "employer"], {
       error: "انتخاب نقش الزامی است",
     }),
 
-    "technical-info_role-category": z.string(),
+    category: z.string(),
   })
 
   .superRefine((data, ctx) => {
-    const role = data["technical-info_set-role"];
+    const role = data["role"];
 
-    const category = data["technical-info_role-category"];
+    const category = data["category"];
 
     const roleCategories = {
       model: ["business", "promo"],
@@ -33,3 +33,5 @@ export const auth_3SchemaTechnicalInfo = z
       });
     }
   });
+
+export type Auth_3TechnicalInfoType = z.infer<typeof auth_3SchemaTechnicalInfo>;

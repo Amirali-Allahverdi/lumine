@@ -10,13 +10,18 @@ export const BasicInfoForm = () => {
   const { mutate, isPending } = useBasicInfo();
 
   const onSubmit = (data: Auth_2BasicInfoType) => {
+    const formatCalendarDate = (dateObj: any): string => {
+      const { year, month, day } = dateObj;
+      return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    };
+
     mutate({
-      "basic-info_firstname": data["basic-info_firstname"],
-      "basic-info_lastname": data["basic-info_lastname"],
-      "basic-info_birth-day": data["basic-info_birth-day"],
-      "basic-info_gender": data["basic-info_gender"],
-      "basic-info_identifier": data["basic-info_identifier"],
-      "basic-info_national": data["basic-info_national"],
+      first_name: data["first_name"],
+      last_name: data["last_name"],
+      birth_date: formatCalendarDate(data["birth_date"]),
+      gender: data["gender"],
+      national_code: data["national_code"],
+      nationality: data["nationality"],
     });
   };
 

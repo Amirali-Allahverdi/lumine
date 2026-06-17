@@ -2,7 +2,7 @@ import { FieldConfig } from "@/shared/types/form/form-builder";
 
 export const auth_2FieldConfig: FieldConfig[] = [
   {
-    name: "basic-info_firstname",
+    name: "first_name",
     label: "نام",
     type: "text",
     placeholder: "هستی",
@@ -10,7 +10,7 @@ export const auth_2FieldConfig: FieldConfig[] = [
     variant: "secondary",
   },
   {
-    name: "basic-info_lastname",
+    name: "last_name",
     label: "نام خانوادگی",
     type: "text",
     placeholder: "اثنی عشری",
@@ -18,7 +18,7 @@ export const auth_2FieldConfig: FieldConfig[] = [
     variant: "secondary",
   },
   {
-    name: "basic-info_gender",
+    name: "gender",
     label: "جنسیت",
     type: "radio",
     options: [
@@ -29,42 +29,42 @@ export const auth_2FieldConfig: FieldConfig[] = [
     variant: "secondary",
   },
   {
-    name: "basic-info_birth-day",
+    name: "birth_date",
     type: "date",
     label: "تاریخ تولد",
     required: true,
     variant: "secondary",
   },
   {
-    name: "basic-info_national",
+    name: "nationality",
     label: "ملیت",
     type: "radio",
     options: [
-      { label: "ایرانی", value: "irani" },
-      { label: "اتباع", value: "kardo" },
+      { label: "ایرانی", value: "IR" },
+      { label: "اتباع", value: "FR" },
     ],
     required: true,
     variant: "secondary",
   },
   {
-    name: "basic-info_identifier",
+    name: "national_code",
     type: "text",
     label: "شناسه",
     numericOnly: true,
 
     dynamicIdentifier: {
-      dependsOn: "basic-info_national",
+      dependsOn: "nationality",
 
       defaultLabel: "کد ملی / کد فراگیر",
       defaultPlaceholder: "ابتدا ملیت را انتخاب کنید",
 
       map: {
-        irani: {
+        IR: {
           label: "کد ملی",
           placeholder: "0123456789",
           maxLength: 10,
         },
-        kardo: {
+        FR: {
           label: "کد فراگیر",
           placeholder: "123456789012",
           maxLength: 12,

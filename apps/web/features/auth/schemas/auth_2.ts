@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const auth_2SchemaBasicInfo = z
   .object({
-    "basic-info_firstname": z
+    first_name: z
       .string()
       .trim()
       .min(2, "نام باید حداقل 2 کاراکتر باشد")
@@ -11,7 +11,7 @@ export const auth_2SchemaBasicInfo = z
         "نام فقط باید شامل حروف باشد",
       ),
 
-    "basic-info_lastname": z
+    last_name: z
       .string()
       .trim()
       .min(2, "نام خانوادگی باید حداقل 2 کاراکتر باشد")
@@ -20,25 +20,25 @@ export const auth_2SchemaBasicInfo = z
         "نام خانوادگی فقط باید شامل حروف باشد",
       ),
 
-    "basic-info_gender": z.enum(["male", "female"], {
+    gender: z.enum(["male", "female"], {
       error: "انتخاب جنسیت الزامی است",
     }),
 
-    "basic-info_birth-day": z
+    birth_date: z
       .any()
       .refine((v) => v !== undefined && v !== null, "تاریخ تولد الزامی است"),
 
-    "basic-info_national": z.enum(["irani", "kardo"], {
+    nationality: z.enum(["IR", "FR"], {
       error: "انتخاب ملیت الزامی است",
     }),
 
-    "basic-info_identifier": z.string().regex(/^\d+$/, "فقط عدد مجاز است"),
+    national_code: z.string().regex(/^\d+$/, "فقط عدد مجاز است"),
   })
   .superRefine((data, ctx) => {
-    const national = data["basic-info_national"];
-    const identifier = data["basic-info_identifier"];
+    const national = data["nationality"];
+    const identifier = data["national_code"];
 
-    if (national === "irani") {
+    if (national === "IR") {
       if (!/^\d{10}$/.test(identifier)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -48,7 +48,7 @@ export const auth_2SchemaBasicInfo = z
       }
     }
 
-    if (national === "kardo") {
+    if (national === "FR") {
       if (!/^\d{12}$/.test(identifier)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
