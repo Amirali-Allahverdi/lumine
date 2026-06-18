@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { boolean, z, ZodObject } from "zod";
+import { DefaultValues, SubmitHandler, useForm } from "react-hook-form";
+import { z, ZodObject } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, Button } from "@heroui/react";
 import { renderField } from "./renderField";
@@ -14,6 +13,8 @@ export interface FormConfig<TSchema extends ZodObject<any>> {
 
   onSubmit: (data: z.infer<TSchema>) => void | Promise<void>;
 
+  defaultValues?: DefaultValues<z.infer<TSchema>>;
+
   submitButtonText?: string;
 
   twoColumns?: boolean;
@@ -23,6 +24,7 @@ function FormBuilder<TSchema extends ZodObject<any>>({
   fields,
   schema,
   onSubmit,
+  defaultValues,
   submitButtonText = "Submit",
   twoColumns = false,
 }: FormConfig<TSchema>) {
@@ -35,6 +37,7 @@ function FormBuilder<TSchema extends ZodObject<any>>({
   } = useForm<FormValues>({
     resolver: zodResolver(schema) as any,
     mode: "onChange",
+    defaultValues,
   });
 
   const submitHandler: SubmitHandler<FormValues> = async (data) => {
@@ -55,7 +58,7 @@ function FormBuilder<TSchema extends ZodObject<any>>({
         type="submit"
         isDisabled={!isValid || isSubmitting}
         fullWidth
-        className="mt-4"
+        className="mt-4 rounded-xl"
       >
         {isSubmitting ? "درحال پردازش..." : submitButtonText}
       </Button>

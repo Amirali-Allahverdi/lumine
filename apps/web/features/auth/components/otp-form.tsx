@@ -2,14 +2,23 @@
 
 import FormBuilder from "@/shared/components/form/form-builder";
 import { auth_1FieldConfigOtp } from "../configs/auth_1";
-import { auth_1SchemaOtp, auth_1SchemaPhone } from "../schemas/auth_1";
+import { Auth_1OtpType, auth_1SchemaOtp } from "../schemas/auth_1";
 import { Pen } from "lucide-react";
-import { Button, Separator, Surface } from "@heroui/react";
+import { Separator, Surface } from "@heroui/react";
 import Link from "next/link";
+import { useVerifyPhoneOtp } from "../hooks/mutations/use-verify-phone";
+import { useAuthStore } from "../store/auth_1";
 
 export const OtpForm = () => {
-  const onSubmit = () => {
-    console.log("data");
+  const { mutate, isPending } = useVerifyPhoneOtp();
+
+  const phoneNumber = useAuthStore((s) => s.phoneNumber);
+
+  const onSubmit = (data: Auth_1OtpType) => {
+    mutate({
+      phone_number: data.phone_number,
+      code: data.code,
+    });
   };
 
   return (
@@ -24,7 +33,7 @@ export const OtpForm = () => {
           className="flex w-fit p-2 rounded-full dark:text-accent-dark text-accent-hover-light bg-surface-elevated-light dark:bg-surface-primary-dark items-center justify-center gap-2 font-bold"
           href="/auth"
         >
-          09927808606
+          {phoneNumber}
           <Pen className="w-4 h-4" />
         </Link>
       </Surface>
@@ -32,6 +41,7 @@ export const OtpForm = () => {
         fields={auth_1FieldConfigOtp}
         onSubmit={onSubmit}
         schema={auth_1SchemaOtp}
+        defaultValues={{ phone_number: phoneNumber, code: "" } as Auth_1OtpType}
         submitButtonText="تایید کد و ادامه"
       />
     </Surface>

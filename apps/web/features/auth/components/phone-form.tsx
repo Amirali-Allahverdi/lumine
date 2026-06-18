@@ -2,20 +2,24 @@
 
 import FormBuilder from "@/shared/components/form/form-builder";
 import { auth_1FieldConfigPhone } from "../configs/auth_1";
-import { auth_1SchemaPhone } from "../schemas/auth_1";
-import { Divider } from "@heroui/divider";
-import { Description, Separator, Surface } from "@heroui/react";
+import { Auth_1PhoneType, auth_1SchemaPhone } from "../schemas/auth_1";
+import { Description, Surface } from "@heroui/react";
+import { useSendPhoneOtp } from "../hooks/mutations/use-send-phone-otp";
 
 export const PhoneForm = () => {
-  const onSubmit = () => {
-    console.log("data");
+  const { mutate, isPending } = useSendPhoneOtp();
+
+  const onSubmit = (data: Auth_1PhoneType) => {
+    mutate({
+      phone_number: data.phone_number,
+    });
   };
 
   return (
     <Surface variant="transparent" className="w-sm p-4">
-      <h3 className="text-2xl font-bold my-1">بیا جلوی دوربین و بدرخش !</h3>
+      <h3 className="text-3xl font-bold mt-1 mb-4">به لومینه خوش اومدی</h3>
       <Description className="text-lg text-text-secondary-dark">
-        ورود | ثبت نام
+        ورود یا ثبت نام
       </Description>
       <FormBuilder
         fields={auth_1FieldConfigPhone}

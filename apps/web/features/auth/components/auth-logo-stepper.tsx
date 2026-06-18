@@ -15,7 +15,7 @@ export const AuthLogoStepper: React.FC<AuthLogoStepperProps> = ({
   totalSteps = 6,
   currentStep = 0,
   staticRoutes = ["/auth", "/auth/otp"],
-  size = 80,
+  size = 60,
 }) => {
   const pathname = usePathname();
 
@@ -24,11 +24,10 @@ export const AuthLogoStepper: React.FC<AuthLogoStepperProps> = ({
   if (isStaticMode) {
     return (
       <Image
-        src={`/logos/lumine_dark_org.svg`}
+        src={`/logos/lumine_light.svg`}
         alt="lumine logo"
         width={size}
         height={size}
-        className="rounded-3xl border-4 border-text-placeholder-light"
       />
     );
   }
@@ -87,11 +86,10 @@ export const AuthLogoStepper: React.FC<AuthLogoStepperProps> = ({
         }}
       >
         <Image
-          src={`/logos/lumine_dark_org.svg`}
+          src={`/logos/lumine_light.svg`}
           alt="lumine logo"
           width={size}
           height={size}
-          className="rounded-full border-4 border-text-placeholder-light"
         />
       </div>
     </div>

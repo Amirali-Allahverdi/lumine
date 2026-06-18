@@ -3,6 +3,7 @@
 import { Controller, useWatch, Control } from "react-hook-form";
 import { Select, Label, ListBox, FieldError } from "@heroui/react";
 import { DynamicFieldVisibility } from "@/shared/types/form/form-builder";
+import { useEffect, useState } from "react";
 
 export type SelectOption = {
   label: string;
@@ -14,7 +15,8 @@ export type SelectDynamicIdentifier = {
   dependsOn: string;
   defaultDisabled?: boolean;
   defaultOptions?: SelectOption[];
-  map: Record<string, { options: SelectOption[]; disabled?: boolean }>;
+  map?: Record<string, { options: SelectOption[]; disabled?: boolean }>;
+  queryFn?: (dependsValue: string) => Promise<SelectOption[]>;
 };
 
 export type SelectFieldSchema = {
@@ -38,28 +40,46 @@ export function SelectField({ field, control }: Props) {
   let disabled = false;
   let visible = true;
 
+  const [dynamicOptions, setDynamicOptions] = useState<SelectOption[]>([]);
+  const [isFetching, setIsFetching] = useState(false);
+
   if (field.dynamicVisibility) {
     const dependsValue = useWatch({
       control,
       name: field.dynamicVisibility.dependsOn,
     });
-
     const config = field.dynamicVisibility.map[String(dependsValue)];
     if (config) visible = config.visible;
   }
 
   if (!visible) return null;
 
-  if (field.dynamicIdentifier) {
-    const dependsValue = useWatch({
-      control,
-      name: field.dynamicIdentifier.dependsOn,
-    });
+  const dependsValue = field.dynamicIdentifier
+    ? useWatch({ control, name: field.dynamicIdentifier.dependsOn })
+    : null;
 
+  useEffect(() => {
+    if (!field.dynamicIdentifier?.queryFn || !dependsValue) {
+      setDynamicOptions([]);
+      return;
+    }
+
+    setIsFetching(true);
+    field.dynamicIdentifier
+      .queryFn(String(dependsValue))
+      .then(setDynamicOptions)
+      .catch(() => setDynamicOptions([]))
+      .finally(() => setIsFetching(false));
+  }, [dependsValue]);
+
+  if (field.dynamicIdentifier) {
     if (!dependsValue) {
       options = field.dynamicIdentifier.defaultOptions ?? [];
       disabled = field.dynamicIdentifier.defaultDisabled ?? true;
-    } else {
+    } else if (field.dynamicIdentifier.queryFn) {
+      options = dynamicOptions;
+      disabled = isFetching;
+    } else if (field.dynamicIdentifier.map) {
       const config = field.dynamicIdentifier.map[String(dependsValue)];
       if (config) {
         options = config.options ?? options;
@@ -74,19 +94,17 @@ export function SelectField({ field, control }: Props) {
       control={control}
       render={({ field: rhf, fieldState }) => (
         <Select
-          placeholder={field.placeholder}
+          placeholder={isFetching ? "در حال بارگذاری..." : field.placeholder}
           selectedKey={rhf.value}
           onSelectionChange={(key) => rhf.onChange(key)}
           variant={field.variant}
           isDisabled={disabled}
         >
           {field.label && <Label>{field.label}</Label>}
-
           <Select.Trigger>
-            <Select.Value className={`text-right`} />
+            <Select.Value className="text-right" />
             <Select.Indicator />
           </Select.Trigger>
-
           <Select.Popover>
             <ListBox>
               {options?.map((opt) => (
@@ -103,7 +121,6 @@ export function SelectField({ field, control }: Props) {
               ))}
             </ListBox>
           </Select.Popover>
-
           <FieldError>{fieldState.error?.message}</FieldError>
         </Select>
       )}

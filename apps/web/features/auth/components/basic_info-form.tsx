@@ -3,11 +3,26 @@
 import FormBuilder from "@/shared/components/form/form-builder";
 import { Separator, Surface } from "@heroui/react";
 import { auth_2FieldConfig } from "../configs/auth_2";
-import { auth_2SchemaBasicInfo } from "../schemas/auth_2";
+import { Auth_2BasicInfoType, auth_2SchemaBasicInfo } from "../schemas/auth_2";
+import { useBasicInfo } from "../hooks/mutations/use-basic-info";
 
 export const BasicInfoForm = () => {
-  const onSubmit = () => {
-    console.log("data");
+  const { mutate, isPending } = useBasicInfo();
+
+  const onSubmit = (data: Auth_2BasicInfoType) => {
+    const formatCalendarDate = (dateObj: any): string => {
+      const { year, month, day } = dateObj;
+      return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    };
+
+    mutate({
+      first_name: data["first_name"],
+      last_name: data["last_name"],
+      birth_date: formatCalendarDate(data["birth_date"]),
+      gender: data["gender"],
+      national_code: data["national_code"],
+      nationality: data["nationality"],
+    });
   };
 
   return (

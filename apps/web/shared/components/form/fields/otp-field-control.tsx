@@ -3,22 +3,14 @@
 import { Controller } from "react-hook-form";
 import { Button, Description, InputOTP, Label, TextField } from "@heroui/react";
 import { useOtpTimer } from "@/shared/hooks/otp-timer";
+import { useAuthStore } from "@/features/auth/store/auth_1";
 
 export function OTPField({ field, control }: any) {
   const length = field.maxLength ?? 6;
 
-  const { seconds, isExpired, reset, formatted } = useOtpTimer(
-    field.timerSeconds ?? 10,
-  );
+  const otpExpire = useAuthStore((s) => s.otpExpire);
 
-  const handleChange = (value: string, onChange: any) => {
-    const numeric = value.replace(/\D/g, "");
-    onChange(numeric);
-
-    if (numeric.length === length) {
-      field.onComplete?.(numeric);
-    }
-  };
+  const { formatted, isExpired, reset } = useOtpTimer(otpExpire ?? 0);
 
   return (
     <div>
@@ -30,7 +22,6 @@ export function OTPField({ field, control }: any) {
             fullWidth
             isRequired={field.required}
             isInvalid={!!fieldState.error}
-            className={``}
             dir="ltr"
           >
             <Label>{field.label}</Label>
@@ -39,11 +30,13 @@ export function OTPField({ field, control }: any) {
               variant="secondary"
               className={field.className}
               maxLength={length}
-              value={rhf.value}
+              value={rhf.value ?? ""}
               onChange={(value) => {
-                rhf.onChange(value);
-                if (value.length === length) {
-                  field.onComplete?.(value);
+                const numeric = value.replace(/\D/g, "");
+                rhf.onChange(numeric);
+
+                if (numeric.length === length) {
+                  field.onComplete?.(numeric);
                 }
               }}
             >
@@ -65,11 +58,11 @@ export function OTPField({ field, control }: any) {
           <Button
             size="sm"
             variant="secondary"
+            className="m-2"
             onPress={() => {
               reset();
               field.onResend?.();
             }}
-            className={`m-2`}
           >
             ارسال مجدد
           </Button>

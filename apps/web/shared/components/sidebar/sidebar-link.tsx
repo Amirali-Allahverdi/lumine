@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import NextLink from "next/link";
-import { NavMenuItem } from "@/types/site";
+import { NavMenuItem } from "@/shared/types/site";
 import { usePathname } from "next/navigation";
 import { ChevronDown, ChevronLeft } from "lucide-react";
 import { SidebarItem } from "./sidebar-item";

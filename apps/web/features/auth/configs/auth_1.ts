@@ -14,7 +14,7 @@ export const auth_1FieldConfigPhone: FieldConfig[] = [
 
 export const auth_1FieldConfigOtp: FieldConfig[] = [
   {
-    name: "otp",
+    name: "code",
     label: "کد ارسال شده به شماره بالا را وارد کنید",
     type: "otp",
     required: true,
@@ -25,3 +25,12 @@ export const auth_1FieldConfigOtp: FieldConfig[] = [
     timerSeconds: 10,
   },
 ];
+
+export const STEP_ROUTES: Record<number, string> = {
+  1: "/auth/basic-info",
+  2: "/auth/technical-info",
+  3: "/auth/",
+  4: "/auth/",
+  5: "/auth/",
+  6: "/",
+};

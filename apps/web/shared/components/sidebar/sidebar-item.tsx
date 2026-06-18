@@ -18,21 +18,19 @@ export const SidebarItem = ({
   href,
 }: BaseItemProps) => {
   const baseClass =
-    "flex items-center cursor-pointer gap-2 px-1 py-1 rounded-full text-sm w-full justify-between text-text-tertiary-light dark:text-text-tertiary-dark";
+    "flex items-center cursor-pointer gap-2 px-1 py-1 rounded-2xl text-sm w-fit justify-between text-text-tertiary-light dark:text-text-tertiary-dark";
 
   const content = (
     <>
-      <div className="flex items-center gap-1">
-        <span className="p-1.5 text-brand rounded-full flex items-center justify-center">
+      <div className="flex scale-110 items-center gap-1">
+        <span
+          className={`
+          ${active ? "text-base-dark dark:text-base-light" : ""}
+          p-4 rounded-full flex items-center justify-center`}
+        >
           {icon}
         </span>
-
-        <span className={active ? "text-foreground  font-bold" : "font-bold"}>
-          {label}
-        </span>
       </div>
-
-      {rightIcon}
     </>
   );
 

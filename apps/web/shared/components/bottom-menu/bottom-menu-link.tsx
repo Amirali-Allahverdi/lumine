@@ -1,6 +1,6 @@
 "use client";
 
-import { BottomMenuLinkProps } from "@/types/bottom-menu/bottom-menu-link";
+import { BottomMenuLinkProps } from "@/shared/types/bottom-menu/bottom-menu-link";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 
