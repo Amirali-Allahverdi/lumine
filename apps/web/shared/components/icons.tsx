@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { IconSvgProps } from "@/types";
+import { IconSvgProps } from "@/shared/types";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 

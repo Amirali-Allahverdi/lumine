@@ -13,7 +13,6 @@ interface AuthState {
   stepRegistration: number | null;
 
   setSendOtpData: (response: SendPhoneOtpResponse) => void;
-
   setVerifyOtpData: (response: VerifyPhoneOtpResponse) => void;
 
   resetAuth: () => void;
@@ -34,12 +33,18 @@ export const useAuthStore = create<AuthState>((set) => ({
       otpCode: response.data.OTP_code ?? null,
     }),
 
-  setVerifyOtpData: (response) =>
-    set({
-      userToken: response.data.user_token,
-      phoneNumber: response.data.phone_number,
-      stepRegistration: response.data.step_registeration,
-    }),
+  setVerifyOtpData: (response) => {
+    const data = response.data;
+
+    set((state) => ({
+      userToken: "user_token" in data ? data.user_token : state.userToken,
+      stepRegistration: data.step_registeration,
+
+      // اگر response تایپ‌شده‌ی verify واقعاً phone_number ندارد،
+      // بهتر است همان phoneNumber قبلی حفظ شود.
+      phoneNumber: state.phoneNumber,
+    }));
+  },
 
   resetAuth: () =>
     set({
