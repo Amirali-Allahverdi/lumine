@@ -1,4 +1,5 @@
 import { FieldConfig } from "@/shared/types/form/form-builder";
+import { UserStatus } from "../types/auth_1";
 
 export const auth_1FieldConfigPhone: FieldConfig[] = [
   {
@@ -29,8 +30,13 @@ export const auth_1FieldConfigOtp: FieldConfig[] = [
 export const STEP_ROUTES: Record<number, string> = {
   1: "/auth/basic-info",
   2: "/auth/technical-info",
-  3: "/auth/",
-  4: "/auth/",
-  5: "/auth/",
-  6: "/",
+  3: "/auth/technical-info",
+  4: "/auth/work-info",
+  5: "/auth/portfolio",
+};
+
+export const STATUS_ROUTES: Record<UserStatus, string> = {
+  pendding: "/auth/pending",
+  rejected: "/auth/rejected",
+  accept: "/",
 };

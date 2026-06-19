@@ -15,8 +15,12 @@ export function TextAreaField({ field, control }: any) {
       name={field.name}
       control={control}
       render={({ field: rhf, fieldState }) => (
-        <TextField isRequired={field.required} isInvalid={!!fieldState.error}>
-          <Label>{field.label}</Label>
+        <TextField
+          variant="secondary"
+          isRequired={field.required}
+          isInvalid={!!fieldState.error}
+        >
+          <Label className="text-start">{field.label}</Label>
 
           <TextArea
             {...rhf}

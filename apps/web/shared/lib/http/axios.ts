@@ -7,6 +7,8 @@ export interface ApiError {
   data?: unknown;
 }
 
+const PUBLIC_ENDPOINTS = ["/auth/send-otp/", "/auth/verify-otp/"];
+
 export const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   timeout: 10000,
@@ -18,12 +20,24 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = useAuthStore.getState().userToken;
+    const isPublicEndpoint = PUBLIC_ENDPOINTS.some((endpoint) =>
+      config.url?.includes(endpoint),
+    );
 
-    if (token) {
-      config.headers.token = token;
+    if (isPublicEndpoint) {
+      return config;
     }
 
+    const token = useAuthStore.getState().userToken;
+
+    if (!token) {
+      if (typeof window !== "undefined") {
+        window.location.href = "/auth";
+      }
+      return Promise.reject({ message: "Unauthorized", status: 401 });
+    }
+
+    config.headers.token = token;
     return config;
   },
   (error) => Promise.reject(error),
@@ -34,7 +48,7 @@ axiosInstance.interceptors.response.use(
   (error: AxiosError<{ message?: string }>) => {
     const status = error?.response?.status;
 
-    if (status === 401) {
+    if (status === 401 || status === 403) {
       useAuthStore.getState().resetAuth?.();
       if (typeof window !== "undefined") window.location.href = "/auth";
     }

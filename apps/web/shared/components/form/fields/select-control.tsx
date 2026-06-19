@@ -101,9 +101,9 @@ export function SelectField({ field, control }: Props) {
           isDisabled={disabled}
         >
           {field.label && <Label>{field.label}</Label>}
-          <Select.Trigger>
-            <Select.Value className="text-right" />
-            <Select.Indicator />
+          <Select.Trigger dir="ltr">
+            <Select.Value className={`text-end`} />
+            <Select.Indicator className="absolute left-2" />
           </Select.Trigger>
           <Select.Popover>
             <ListBox>
@@ -113,9 +113,9 @@ export function SelectField({ field, control }: Props) {
                   id={String(opt.value)}
                   textValue={opt.label}
                 >
-                  <div className="flex justify-start gap-2 items-center">
-                    {opt.icon}
+                  <div className="flex justify-end w-full gap-2 items-center">
                     {opt.label}
+                    {opt.icon}
                   </div>
                 </ListBox.Item>
               ))}

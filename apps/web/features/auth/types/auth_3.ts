@@ -7,7 +7,7 @@ export interface TechnicalInfo_RolePayload {
 
 interface TechnicalInfo_RoleResponseData {
   user_id: number;
-  roles_name: UserRole[];
+  roles_name: UserRole | UserRole[];
 }
 
 export interface TechnicalInfo_RoleResponse {

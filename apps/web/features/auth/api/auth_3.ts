@@ -11,7 +11,7 @@ import {
 export async function setRole(
   payload: TechnicalInfo_RolePayload,
 ): Promise<TechnicalInfo_RoleResponse> {
-  const { data } = await axiosInstance.put("/auth/set-role/", payload);
+  const { data } = await axiosInstance.post("/auth/set-role/", payload);
   return data;
 }
 
@@ -25,6 +25,6 @@ export async function getCategories(role: UserRole): Promise<Category[]> {
 export async function setCategory(
   payload: TechnicalInfo_CategoryPayload,
 ): Promise<TechnicalInfo_CategoryResponse> {
-  const { data } = await axiosInstance.put("/auth/set-category/", payload);
+  const { data } = await axiosInstance.post("/auth/p-category/", payload);
   return data;
 }

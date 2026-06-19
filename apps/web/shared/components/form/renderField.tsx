@@ -4,6 +4,7 @@ import { SelectField } from "./fields/select-control";
 import { OTPField } from "./fields/otp-field-control";
 import { RadioField } from "./fields/radio-control";
 import { DatePickerField } from "./fields/date-picker-control";
+import { FileFieldInput } from "./fields/file-control";
 
 export function renderField(field: any, control: any) {
   switch (field.type) {
@@ -21,6 +22,9 @@ export function renderField(field: any, control: any) {
 
     case "date":
       return <DatePickerField field={field} control={control} />;
+
+    case "file":
+      return <FileFieldInput field={field} control={control} />;
 
     default:
       return (

@@ -5,7 +5,16 @@ import { useRouter } from "next/navigation";
 import { verifyPhoneOtpOptions } from "../../services/auth_1";
 import { toast } from "@heroui/react";
 import { useAuthStore } from "../../store/auth_1";
-import { STEP_ROUTES } from "../../configs/auth_1";
+import { STEP_ROUTES, STATUS_ROUTES } from "../../configs/auth_1";
+import { UserStatus } from "../../types/auth_1";
+
+function resolveRedirectPath(step: number, status?: UserStatus): string {
+  if (step === 6) {
+    return STATUS_ROUTES[status ?? "pendding"];
+  }
+
+  return STEP_ROUTES[step] ?? "/auth/basic-info";
+}
 
 export function useVerifyPhoneOtp() {
   const router = useRouter();
@@ -16,11 +25,12 @@ export function useVerifyPhoneOtp() {
 
     onSuccess: (data) => {
       setVerifyOtpData(data);
-      console.log("Data: ", data);
-      toast.success("کد تایید با موفقیت تایید شد.");
+      toast.success("شماره تماس با موفقیت تایید شد.");
 
-      const step = Number(data.data.step_registeration);
-      const target = STEP_ROUTES[step] ?? "/auth/basic-info";
+      const step = data.data.step_registeration;
+      const status = "status" in data.data ? data.data.status : undefined;
+
+      const target = resolveRedirectPath(step, status);
 
       router.push(target);
     },
