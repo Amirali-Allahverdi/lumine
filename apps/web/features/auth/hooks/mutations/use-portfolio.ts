@@ -10,7 +10,6 @@ export function usePortfolio() {
     ...portfolioOptions(),
 
     onSuccess: (data) => {
-      console.log(data);
       toast.success("پورتفولیو با موفقیت آپلود شد.");
       router.push("/auth/pending");
     },

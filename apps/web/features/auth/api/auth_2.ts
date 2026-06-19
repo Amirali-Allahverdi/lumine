@@ -6,7 +6,6 @@ export async function basicInfo(
   payload: Auth_2BasicInfoType,
 ): Promise<BasicInfoResponse> {
   const { data } = await axiosInstance.put("/auth/basic-info/", payload);
-  console.log(data);
 
   return data;
 }

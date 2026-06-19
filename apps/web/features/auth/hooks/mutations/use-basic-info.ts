@@ -10,7 +10,6 @@ export function useBasicInfo() {
     ...basicInfoOptions(),
 
     onSuccess: (data) => {
-      console.log(data);
       toast.success("اطلاعات شخصی با موفقیت ذخیره شد.");
       router.push("/auth/technical-info");
     },

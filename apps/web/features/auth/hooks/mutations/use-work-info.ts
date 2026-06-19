@@ -11,7 +11,6 @@ export function useWorkInfo(role: UserRole | null) {
     ...workInfoOptions(role),
 
     onSuccess: (data) => {
-      console.log(data);
       toast.success("اطلاعات با موفقیت ذخیره شد.");
       router.push("/auth/portfolio");
     },
