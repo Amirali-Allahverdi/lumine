@@ -12,7 +12,7 @@ import { useAuthStore } from "../store/auth_1";
 export const OtpForm = () => {
   const { mutate, isPending } = useVerifyPhoneOtp();
 
-  const phoneNumber = useAuthStore((s) => s.phoneNumber);
+  const phoneNumber = useAuthStore((s) => s.registration.phoneNumber);
 
   const onSubmit = (data: Auth_1OtpType) => {
     mutate({
@@ -41,7 +41,7 @@ export const OtpForm = () => {
         fields={auth_1FieldConfigOtp}
         onSubmit={onSubmit}
         schema={auth_1SchemaOtp}
-        defaultValues={{ phone_number: phoneNumber, code: "" } as Auth_1OtpType}
+        defaultValues={{ phone_number: phoneNumber ?? "", code: "" }}
         submitButtonText="تایید کد و ادامه"
       />
     </Surface>

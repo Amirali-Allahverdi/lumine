@@ -28,12 +28,15 @@ export function RadioField({ field, control }: any) {
             className="flex items-start gap-6 p-2 rounded-xl"
           >
             {field.options?.map((opt: any) => (
-              <Radio key={opt.value} value={opt.value} className={`m-0`}>
-                <Radio.Control>
-                  <Radio.Indicator />
-                </Radio.Control>
-
+              <Radio
+                key={opt.value}
+                value={opt.value}
+                className={`m-0 items-center flex flex-row`}
+              >
                 <Radio.Content>
+                  <Radio.Control>
+                    <Radio.Indicator />
+                  </Radio.Control>
                   <Label>{opt.label}</Label>
                   {opt.description && (
                     <Description>{opt.description}</Description>

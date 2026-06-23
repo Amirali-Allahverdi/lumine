@@ -14,7 +14,7 @@ import { ChevronDown } from "lucide-react";
 
 export function DatePickerField({ field, control }: any) {
   return (
-    <I18nProvider locale="fa-IR-u-ca-persian">
+    <I18nProvider locale="fa-u-ca-persian">
       <Controller
         name={field.name}
         control={control}

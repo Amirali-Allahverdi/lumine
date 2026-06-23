@@ -62,3 +62,15 @@ export interface VerifyPhoneOtpResponse {
   message: string;
   data: VerifyPhoneOtpResponseData;
 }
+
+export interface AuthStateData {
+  phoneNumber: string | null;
+  otpExpire: number | null;
+  otpCode: string | null;
+
+  userToken: string | null;
+  stepRegistration: number | null;
+
+  tokens: AuthTokens | null;
+  status: UserStatus | null;
+}

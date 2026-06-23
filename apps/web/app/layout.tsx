@@ -6,6 +6,7 @@ import { Providers } from "./providers";
 import { Metadata, Viewport } from "next";
 import { siteConfig } from "@/config/site";
 import { Toast } from "@heroui/react";
+import { AuthProvider } from "@/features/auth/providers/auth-provider";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -42,7 +43,7 @@ export default function RootLayout({
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-          {children}
+          <AuthProvider>{children}</AuthProvider>
         </Providers>
         <Toast.Provider placement="top" />
       </body>
