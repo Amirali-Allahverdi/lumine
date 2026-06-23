@@ -17,7 +17,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           size={150}
           className="h-screen absolute top-0 left-1/2 -translate-x-1/2 w-full"
         >
-          <div className="flex-1">{children}</div>
+          <div className="flex-1 mt-16">{children}</div>
         </ScrollShadow>
       </main>
     </div>

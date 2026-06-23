@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export const Sidebar = () => {
   return (
-    <aside className="w-fit hidden h-screen p-0.5 overflow-y-auto border-l border-border sm:flex flex-col items-center">
+    <aside className="w-fit z-[9999] hidden h-screen p-0.5 overflow-y-auto border-l border-border sm:flex flex-col items-center">
       <Image
         src={`/logos/lumine_light.svg`}
         alt="lumine logo"

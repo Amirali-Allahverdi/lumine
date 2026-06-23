@@ -1,32 +1,18 @@
 "use client";
 
-import {
-  Navbar as HeroUINavbar,
-  NavbarContent,
-  NavbarMenu,
-  NavbarMenuToggle,
-  NavbarMenuItem,
-} from "@heroui/navbar";
-import { Button, Input } from "@heroui/react";
-
-import { siteConfig } from "@/config/site";
-import { ThemeSwitch } from "@/shared/components/theme-switch";
-import { GithubIcon, SearchIcon } from "@/shared/components/icons";
-import {
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  CircleEllipsis,
-  Ellipse,
-  Ellipsis,
-} from "lucide-react";
+import { Navbar as HeroUINavbar, NavbarContent } from "@heroui/navbar";
+import { Button } from "@heroui/react";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Gear, Person } from "@gravity-ui/icons";
+import { ThemeSwitch } from "./theme-switch";
+import { siteConfig } from "@/config/site";
+import { usePathname } from "next/navigation";
 
 export const Navbar = () => {
-  const searchInput = (
-    <Input aria-label="Search" placeholder="جستجو کنید ..." type="search" />
-  );
+  const pathname = usePathname();
+
+  const pageTitle = getPageTitle(pathname, siteConfig.navItems);
 
   return (
     <HeroUINavbar
@@ -49,7 +35,7 @@ export const Navbar = () => {
         justify="center"
         className="backdrop-blur-xl border-1 border-border px-4 rounded-full"
       >
-        <h2 className="text-2xl">عنوان صفحه</h2>
+        <h2 className="text-2xl">{pageTitle}</h2>
       </NavbarContent>
 
       <NavbarContent justify="end">
@@ -61,8 +47,21 @@ export const Navbar = () => {
             <Person className="size-5" />
           </Link>
         </div>
-        {/* <ThemeSwitch /> */}
+        <ThemeSwitch />
       </NavbarContent>
     </HeroUINavbar>
   );
 };
+
+function getPageTitle(pathname: string, navItems: any[]) {
+  for (const item of navItems) {
+    if (item.href === pathname) return item.label;
+
+    if (item.items) {
+      const subItem = item.items.find((i: any) => i.href === pathname);
+      if (subItem) return subItem.label;
+    }
+  }
+
+  return "عنوان صفحه";
+}

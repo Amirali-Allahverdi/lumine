@@ -10,10 +10,7 @@ import {
   BellDot,
 } from "lucide-react";
 import {
-  House,
-  Briefcase,
   Bell,
-  Comment,
   Gear,
   HouseFill,
   BriefcaseFill,
