@@ -3,13 +3,6 @@
 
 @config "../../tailwind.config.js";
 
-/*
- * HeroUI Theme Customization
- * Add this to your global.css after importing @heroui/styles
- * Only includes variables users need to customize
- * @see https://heroui.com/docs/react/getting-started/theming
- */
-
 :root,
 .light,
 .default,
@@ -50,11 +43,15 @@
 
   /* Border Radius */
   --radius: 0.5rem;
-  --field-radius: 0.75rem;
+  --field-radius: 1.5rem;
 
   /* Font Family */
   /* Make sure to load Inter font in your app */
   --font-sans: var(--font-inter);
+}
+
+.button {
+  border-radius: 10rem;
 }
 
 .dark,

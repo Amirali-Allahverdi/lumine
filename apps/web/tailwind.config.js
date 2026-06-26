@@ -171,7 +171,7 @@ const config = {
             foreground: "#111111",
             card: "#FFFFFF",
             divider: "#E2E2E6",
-            primary: "#2563EB",
+            primary: "#741a2f",
           },
         },
         dark: {
@@ -180,7 +180,7 @@ const config = {
             foreground: "#F5F5F5",
             card: "#18181B",
             divider: "#2C2C30",
-            primary: "#2563EB",
+            primary: "#741a2f",
           },
         },
       },

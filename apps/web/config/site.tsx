@@ -16,6 +16,7 @@ import {
   BriefcaseFill,
   BellFill,
   CommentFill,
+  StarFill,
 } from "@gravity-ui/icons";
 
 export const siteConfig = {
@@ -29,35 +30,34 @@ export const siteConfig = {
       icon: <HouseFill className="scale-150" />,
       type: "link",
     },
+
+    {
+      label: "مدل ها",
+      href: "/models",
+      icon: <StarFill className="scale-150" />,
+      type: "link",
+    },
     {
       label: "پروژه ها",
       icon: <BriefcaseFill className="scale-150" />,
       type: "link",
       href: "/projects",
       items: [
-        {
-          label: "همه",
-          href: "/projects",
-          icon: <Component />,
-        },
-        {
-          label: "جاری",
-          href: "/projects/1",
-          icon: <Activity />,
-        },
+        { label: "همه", href: "/projects", icon: <Component /> },
+        { label: "جاری", href: "/projects?status=active", icon: <Activity /> },
         {
           label: "در انتظار",
-          href: "/projects/2",
+          href: "/projects?status=pending",
           icon: <Clock />,
         },
         {
           label: "انجام شده",
-          href: "/projects/3",
+          href: "/projects?status=completed",
           icon: <CheckCircle />,
         },
         {
           label: "لغو شده",
-          href: "/projects/4",
+          href: "/projects?status=canceled",
           icon: <XCircle />,
         },
       ],
@@ -68,23 +68,20 @@ export const siteConfig = {
       type: "link",
       href: "/notifications",
       items: [
-        {
-          label: "همه",
-          href: "/notifications",
-          icon: <Component />,
-        },
+        { label: "همه", href: "/notifications", icon: <Component /> },
         {
           label: "خوانده نشده",
-          href: "/notifications/1",
+          href: "/notifications?status=unread",
           icon: <BellDot />,
         },
         {
           label: "خوانده شده",
-          href: "/notifications/2",
+          href: "/notifications?status=read",
           icon: <CheckCircle />,
         },
       ],
     },
+
     {
       label: "پیام ها",
       href: "/messages",

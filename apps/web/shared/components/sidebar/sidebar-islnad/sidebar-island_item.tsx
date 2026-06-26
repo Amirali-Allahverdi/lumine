@@ -19,17 +19,18 @@ export const SidebarIslandItem = ({
   href,
 }: BaseItemProps) => {
   const baseClass =
-    "flex items-center cursor-pointer gap-2 px-1 py-1 rounded-2xl text-sm w-fit justify-between text-text-tertiary-light dark:text-text-tertiary-dark";
+    "flex items-center w-full cursor-pointer gap-2 rounded-full text-sm w-fit justify-between text-text-tertiary-light dark:text-text-tertiary-dark";
 
   const content = (
     <>
-      <div className="flex scale-110 items-center gap-1">
+      <div className="flex items-center gap-1">
         <span
           className={`
-          ${active ? "text-base-dark dark:text-base-light" : ""}
-          p-4 rounded-full flex items-center justify-center`}
+          ${active ? "text-base-dark flex gap-2 dark:text-base-light" : ""}
+          p-2 flex items-center justify-center gap-2`}
         >
           {icon}
+          {label}
         </span>
       </div>
     </>
@@ -39,7 +40,7 @@ export const SidebarIslandItem = ({
     return (
       <NextLink
         href={href}
-        className={`${baseClass} ${active ? "bg-surface-secondary-light dark:bg-surface-secondary-dark cursor-auto" : ""}`}
+        className={`${baseClass} ${active ? "bg-surface-primary-light dark:bg-surface-primary-dark cursor-auto" : ""}`}
       >
         {content}
       </NextLink>

@@ -13,11 +13,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <main className="flex flex-col flex-1 overflow-y-auto">
         <BottomMenu />
         <Navbar />
-        <ScrollShadow
-          size={150}
-          className="h-screen absolute top-0 left-1/2 -translate-x-1/2 w-full"
-        >
-          <div className="flex-1 mt-16">{children}</div>
+        <ScrollShadow size={150}>
+          <div className="flex-1">{children}</div>
         </ScrollShadow>
       </main>
     </div>
