@@ -19,7 +19,7 @@ class ImagePortfolioInline(admin.TabularInline):
 class UserAdmin(UserAdmin):
     # هنگام ویرایش user 
     fieldsets = (
-        (None, {'fields': ('phone_number', 'password', 'first_name', 'last_name', 'national_code', 'nationality', 'birth_date', 'gender', 'status', 'text_error', 'step_reg')}),
+        (None, {'fields': ('phone_number', 'password', 'first_name', 'last_name', 'national_code', 'nationality', 'birth_date', 'gender', 'status', 'text_error', 'work_status', 'step_reg')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', )}),
     )
@@ -28,7 +28,7 @@ class UserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('phone_number', 'password1', 'password2', 'first_name', 'last_name', 'national_code', 'nationality', 'birth_date', 'gender', 'status'),
+            'fields': ('phone_number', 'password1', 'password2', 'first_name', 'last_name', 'national_code', 'nationality', 'birth_date', 'gender', 'work_status', 'status'),
         }),
     )
 
