@@ -23,7 +23,7 @@ export default function AuthLayout({
       <section className="flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-4 py-8 md:py-10">
         <header>
           <Image
-            src={`/logos/lumine_light.svg`}
+            src={`/logos/lumine.svg`}
             alt="lumine logo"
             width={30}
             height={30}

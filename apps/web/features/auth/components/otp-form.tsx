@@ -30,7 +30,7 @@ export const OtpForm = () => {
         className="w-full mb-2 flex justify-center items-center"
       >
         <Link
-          className="flex w-fit p-2 rounded-full dark:text-accent-dark text-accent-hover-light bg-surface-elevated-light dark:bg-surface-primary-dark items-center justify-center gap-2 font-bold"
+          className="flex w-fit p-2 rounded-full text-primary bg-surface-elevated-light dark:bg-surface-elevated-dark items-center justify-center gap-2 font-bold"
           href="/auth"
         >
           {phoneNumber}

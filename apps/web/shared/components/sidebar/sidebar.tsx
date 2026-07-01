@@ -10,7 +10,7 @@ export const Sidebar = () => {
       <aside className="w-fit z-[9999] hidden h-screen p-2 sm:flex flex-col items-center justify-between">
         <div className="flex flex-col items-center">
           <Image
-            src={`/logos/lumine_light.svg`}
+            src={`/logos/lumine.svg`}
             alt="lumine logo"
             width={24}
             height={24}
