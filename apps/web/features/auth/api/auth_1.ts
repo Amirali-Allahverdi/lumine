@@ -1,9 +1,5 @@
 import { axiosInstance } from "@/shared/lib/http/axios";
-import {
-  SendPhoneOtpPayload,
-  SendPhoneOtpResponse,
-  VerifyPhoneOtpResponse,
-} from "../types/auth_1";
+import { SendPhoneOtpResponse, VerifyPhoneOtpResponse } from "../types/auth_1";
 import { Auth_1OtpType, Auth_1PhoneType } from "../schemas/auth_1";
 
 export async function sendPhoneOtp(

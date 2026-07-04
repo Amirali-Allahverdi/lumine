@@ -1,5 +1,5 @@
-import { IconBox } from "@/shared/components/ui/glass-icon";
-import { Person } from "@gravity-ui/icons";
+import { SayHello } from "@/shared/components/main/home/say-hello";
+import { SearchField } from "@heroui/react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,43 +8,13 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
-      <h1>به لومینه خوش خیلی آمدید</h1>
+    <section className="flex flex-col gap-4 p-10">
+      <header>
+        <SayHello />
+        <p className="mt-2 text-text-secondary-light dark:text-text-secondary-dark">
+          روی قولات بمون ، رویا هات رو بساز
+        </p>
+      </header>
     </section>
   );
 }

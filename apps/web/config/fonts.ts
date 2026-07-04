@@ -14,3 +14,8 @@ export const sfBold = localFont({
   src: "../public/fonts/SFArabic-Bold.ttf",
   variable: "--font-sf-bold",
 });
+
+export const iranYekan = localFont({
+  src: "../public/fonts/iy.ttf",
+  variable: "--font-iran-yekan",
+});

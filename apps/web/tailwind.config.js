@@ -17,6 +17,7 @@ const config = {
         sfLight: ["var(--font-sf-light)"],
         sfMed: ["var(--font-sf-medium)"],
         sfBold: ["var(--font-sf-bold)"],
+        iranYekan: ["var(--font-iran-yekan)"],
       },
 
       colors: {
@@ -86,10 +87,11 @@ const config = {
         borderStrongLight: "#B8B8BE",
 
         /* =========================
-           PRIMARY BRAND (Royal Blue)
+           PRIMARY BRAND (Royal Red)
         ========================= */
 
-        brand: "#2563EB",
+        brand: "#741a2f",
+        secondary: "#ffc6a8",
 
         primaryHoverDark: "#3B82F6",
         primaryHoverLight: "#1D4ED8",

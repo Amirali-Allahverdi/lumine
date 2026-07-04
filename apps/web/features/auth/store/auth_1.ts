@@ -59,7 +59,6 @@ export const useAuthStore = create<AuthState>()(
       setVerifyOtpData: (response) => {
         const data = response.data;
 
-        // مرحله ناقص ثبت‌نام
         if ("user_token" in data && data.step_registeration < 6) {
           set((state) => ({
             registration: {
@@ -72,7 +71,6 @@ export const useAuthStore = create<AuthState>()(
           return;
         }
 
-        // مرحله ۶ — pending
         if (data.step_registeration === 6 && data.status === "pendding") {
           set({
             registration: initialRegistrationState,
@@ -84,7 +82,6 @@ export const useAuthStore = create<AuthState>()(
           return;
         }
 
-        // مرحله ۶ — rejected
         if (data.step_registeration === 6 && data.status === "rejected") {
           set({
             registration: initialRegistrationState,
@@ -96,7 +93,6 @@ export const useAuthStore = create<AuthState>()(
           return;
         }
 
-        // مرحله ۶ — accept
         if (data.step_registeration === 6 && data.status === "accept") {
           const { access, refresh } = data.tokens;
 

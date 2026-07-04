@@ -8,16 +8,30 @@ import { ArrowRightFromSquare, Gear, Person, Persons } from "@gravity-ui/icons";
 import { ThemeSwitch } from "./theme-switch";
 import { siteConfig } from "@/config/site";
 import { usePathname, useRouter } from "next/navigation";
+import { useMe } from "@/features/profile/hooks/mutations/use-me";
+import { getMediaUrl } from "../lib/media/get-media";
+import { useEffect } from "react";
+import { useAuthStore } from "@/features/auth/store/auth_1";
 
 export const Navbar = () => {
   const pathname = usePathname();
   const router = useRouter();
+
+  const { logout } = useAuthStore();
+  const { data } = useMe();
 
   const pageTitle = getPageTitle(pathname, siteConfig.navItems);
 
   const handleBack = () => {
     router.back();
   };
+
+  const handleLogout = () => {
+    logout();
+    router.push("/auth");
+  };
+
+  const avatarUrl = getMediaUrl(data?.images_portfolio?.full_shot_url);
 
   return (
     <HeroUINavbar
@@ -49,30 +63,35 @@ export const Navbar = () => {
 
         <Dropdown>
           <Dropdown.Trigger className="rounded-full">
-            <Avatar>
-              <Avatar.Image
-                alt="Junior Garcia"
-                src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg"
-              />
-              <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
+            <Avatar size="sm">
+              <Avatar.Image alt="Jane" src={avatarUrl} />
+              <Avatar.Fallback delayMs={600}>
+                {data?.first_name.slice(0, 1)}
+                {data?.last_name.slice(0, 1)}
+              </Avatar.Fallback>
             </Avatar>
           </Dropdown.Trigger>
           <Dropdown.Popover>
             <div className="px-3 pt-3 pb-1">
               <div className="flex items-center gap-2">
                 <Avatar size="sm">
-                  <Avatar.Image
-                    alt="Jane"
-                    src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg"
-                  />
-                  <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
+                  <Avatar.Image alt="Jane" src={avatarUrl} />
+                  <Avatar.Fallback delayMs={600}>
+                    {data?.first_name.slice(0, 1)}
+                    {data?.last_name.slice(0, 1)}
+                  </Avatar.Fallback>
                 </Avatar>
                 <div className="flex flex-col gap-0">
                   <p className="text-sm leading-5 font-medium">
-                    هستی اثنی عشری
+                    {data?.first_name} {data?.last_name}
                   </p>
                   <p className="text-xs leading-none text-muted">
-                    hastiesna2009@gmail.com
+                    {data?.phone_number}
+                  </p>
+                  <p className="text-xs leading-none text-muted">
+                    {data?.groups.map((role) => (
+                      <span key={role.id}>{role.name}</span>
+                    ))}
                   </p>
                 </div>
               </div>
@@ -96,7 +115,12 @@ export const Navbar = () => {
                   <Label>تنظیمات</Label>
                 </Link>
               </Dropdown.Item>
-              <Dropdown.Item id="logout" textValue="Logout" variant="danger">
+              <Dropdown.Item
+                onPress={handleLogout}
+                id="logout"
+                textValue="Logout"
+                variant="danger"
+              >
                 <div className="flex w-full items-center justify-between gap-2">
                   <ArrowRightFromSquare className="size-3.5 text-danger" />
                   <Label>خروج از حساب</Label>

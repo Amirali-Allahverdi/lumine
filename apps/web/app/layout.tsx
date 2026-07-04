@@ -1,6 +1,6 @@
 import "@/shared/styles/globals.css";
 
-import { sfBold, sfLight, sfMed } from "@/config/fonts";
+import { iranYekan, sfBold, sfLight, sfMed } from "@/config/fonts";
 import clsx from "clsx";
 import { Providers } from "./providers";
 import { Metadata, Viewport } from "next";
@@ -36,10 +36,8 @@ export default function RootLayout({
       <head />
       <body
         className={clsx(
-          sfLight.variable,
-          sfMed.variable,
-          sfBold.variable,
-          "relative z-0 min-h-screen font-sf-med text-primaryBaseLight bg-background-secondary-light dark:bg-background-secondary-dark antialiased",
+          iranYekan.variable,
+          "relative z-0 min-h-screen font-iran-yekan text-primaryBaseLight bg-background-secondary-light dark:bg-background-secondary-dark antialiased",
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "@heroui/react";
 import { verifyPhoneOtpOptions } from "../../services/auth_1";
@@ -11,6 +11,7 @@ import type {
   VerifyPhoneOtpResponse,
   VerifyPhoneOtpPayload,
 } from "../../types/auth_1";
+import { meQueryOptions } from "@/features/profile/hooks/queries/me";
 
 function resolveRedirectPath(step: number, status?: UserStatus): string {
   if (step === 6 && status) {
@@ -23,21 +24,20 @@ function resolveRedirectPath(step: number, status?: UserStatus): string {
 export function useVerifyPhoneOtp() {
   const router = useRouter();
   const setVerifyOtpData = useAuthStore((s) => s.setVerifyOtpData);
+  const queryClient = useQueryClient();
 
-  return useMutation<
-    VerifyPhoneOtpResponse,
-    Error, // ✅ استفاده از Error به جای custom type
-    VerifyPhoneOtpPayload
-  >({
+  return useMutation<VerifyPhoneOtpResponse, Error, VerifyPhoneOtpPayload>({
     ...verifyPhoneOtpOptions(),
 
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       setVerifyOtpData(data);
 
       const step = data.data.step_registeration;
       const status = "status" in data.data ? data.data.status : undefined;
 
       if (status === "accept") {
+        await queryClient.prefetchQuery(meQueryOptions());
+
         toast.success("خوش آمدید");
       } else if (status === "pendding") {
         toast.info("درخواست شما در حال بررسی است");

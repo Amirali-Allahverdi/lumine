@@ -24,7 +24,6 @@ export const OtpForm = () => {
   return (
     <Surface variant="transparent" className="w-sm p-4">
       <h3 className="text-2xl font-bold my-4">تایید شماره تلفن</h3>
-      <Separator className="mb-4" />
       <Surface
         variant="transparent"
         className="w-full mb-2 flex justify-center items-center"
