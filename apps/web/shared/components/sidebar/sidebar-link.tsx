@@ -78,10 +78,15 @@ export const SidebarLink: React.FC<Props> = ({ item }) => {
                 <NextLink
                   key={subItem.href}
                   href={subItem.href}
-                  className={`flex items-center gap-2 px-2 py-1 rounded-full hover:bg-default-100 text-sm text-text-tertiary-light dark:text-text-tertiary-dark ${
-                    isActive ? "bg-primary text-foreground" : ""
+                  className={`flex items-center gap-2 px-2 py-1 rounded-xl hover:bg-default-100 text-sm  ${
+                    isActive
+                      ? "text-foreground"
+                      : "text-text-tertiary-light dark:text-text-tertiary-dark"
                   }`}
                 >
+                  <div
+                    className={`${isActive ? "" : "bg-transparent"} w-1 rounded-full h-5 bg-primary`}
+                  />
                   {subItem.icon}
                   {subItem.label}
                 </NextLink>

@@ -1,19 +1,18 @@
-import { MainProjects } from "@/features/projects/components/main";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "پروژه ها",
+  title: "مدل ها",
 };
 
-export default function Projects() {
+export default function Models() {
   return (
     <section className="flex flex-col gap-4 p-10">
       <header>
+        <h1 className="text-4xl font-bold">مدل ها</h1>
         <p className="mt-2 text-text-secondary-light dark:text-text-secondary-dark">
-          هرچیزی که برای دیده شدن احتیاج داری ، اینجاست
+          در همه شهر های ایران، استعدادی برای درخشیدن هست
         </p>
       </header>
-      <MainProjects />
     </section>
   );
 }

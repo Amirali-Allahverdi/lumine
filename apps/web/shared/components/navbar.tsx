@@ -1,16 +1,15 @@
 "use client";
 
 import { Navbar as HeroUINavbar, NavbarContent } from "@heroui/navbar";
-import { Avatar, Button, ButtonGroup, Dropdown, Label } from "@heroui/react";
+import { Avatar, Button, Dropdown, Label } from "@heroui/react";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { ArrowRightFromSquare, Gear, Person, Persons } from "@gravity-ui/icons";
+import { ArrowRightFromSquare, Gear, Person } from "@gravity-ui/icons";
 import { ThemeSwitch } from "./theme-switch";
 import { siteConfig } from "@/config/site";
 import { usePathname, useRouter } from "next/navigation";
 import { useMe } from "@/features/profile/hooks/mutations/use-me";
 import { getMediaUrl } from "../lib/media/get-media";
-import { useEffect } from "react";
 import { useAuthStore } from "@/features/auth/store/auth_1";
 
 export const Navbar = () => {
@@ -20,7 +19,12 @@ export const Navbar = () => {
   const { logout } = useAuthStore();
   const { data } = useMe();
 
-  const pageTitle = getPageTitle(pathname, siteConfig.navItems);
+  // ارسال هر دو آرایه به تابع جهت بررسی کامل مسیرها
+  const pageTitle = getPageTitle(
+    pathname,
+    siteConfig.navItems,
+    siteConfig.navMenuItems,
+  );
 
   const handleBack = () => {
     router.back();
@@ -64,10 +68,10 @@ export const Navbar = () => {
         <Dropdown>
           <Dropdown.Trigger className="rounded-full">
             <Avatar size="sm">
-              <Avatar.Image alt="Jane" src={avatarUrl} />
+              <Avatar.Image alt={data?.first_name || "User"} src={avatarUrl} />
               <Avatar.Fallback delayMs={600}>
-                {data?.first_name.slice(0, 1)}
-                {data?.last_name.slice(0, 1)}
+                {data?.first_name?.slice(0, 1)}
+                {data?.last_name?.slice(0, 1)}
               </Avatar.Fallback>
             </Avatar>
           </Dropdown.Trigger>
@@ -75,10 +79,13 @@ export const Navbar = () => {
             <div className="px-3 pt-3 pb-1">
               <div className="flex items-center gap-2">
                 <Avatar size="sm">
-                  <Avatar.Image alt="Jane" src={avatarUrl} />
+                  <Avatar.Image
+                    alt={data?.first_name || "User"}
+                    src={avatarUrl}
+                  />
                   <Avatar.Fallback delayMs={600}>
-                    {data?.first_name.slice(0, 1)}
-                    {data?.last_name.slice(0, 1)}
+                    {data?.first_name?.slice(0, 1)}
+                    {data?.last_name?.slice(0, 1)}
                   </Avatar.Fallback>
                 </Avatar>
                 <div className="flex flex-col gap-0">
@@ -89,7 +96,7 @@ export const Navbar = () => {
                     {data?.phone_number}
                   </p>
                   <p className="text-xs leading-none text-muted">
-                    {data?.groups.map((role) => (
+                    {data?.groups?.map((role) => (
                       <span key={role.id}>{role.name}</span>
                     ))}
                   </p>
@@ -134,8 +141,21 @@ export const Navbar = () => {
   );
 };
 
-function getPageTitle(pathname: string, navItems: any[]) {
+function getPageTitle(pathname: string, navItems: any[], navMenuItems: any[]) {
+  if (pathname === "/profile") {
+    return "پروفایل";
+  }
+
   for (const item of navItems) {
+    if (item.href === pathname) return item.label;
+
+    if (item.items) {
+      const subItem = item.items.find((i: any) => i.href === pathname);
+      if (subItem) return subItem.label;
+    }
+  }
+
+  for (const item of navMenuItems) {
     if (item.href === pathname) return item.label;
 
     if (item.items) {

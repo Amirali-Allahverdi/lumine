@@ -1,5 +1,5 @@
 import { axiosInstance } from "@/shared/lib/http/axios";
-import { GetMeResponse } from "../hooks/types/me";
+import { GetMeResponse } from "../types/me";
 
 export async function getMe(): Promise<GetMeResponse> {
   const { data } = await axiosInstance.get("/profile/me/");
