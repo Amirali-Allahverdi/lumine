@@ -8,6 +8,18 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 import uuid
 
 
+class Province(models.Model):
+    name = models.CharField(max_length=55, unique=True)
+    slug = models.SlugField(max_length=55, unique=True, allow_unicode=True)
+    code = models.CharField(max_length=10, null=True, blank=True)
+
+    class Meta:
+        ordering = ['-name']
+
+    def __str__(self):
+        return self.name
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     # Basic data
     phone_number = models.CharField(max_length=11, unique=True, validators=[phone_validator])

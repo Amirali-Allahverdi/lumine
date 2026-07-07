@@ -17,15 +17,20 @@ class ProjectRequestView(ModelViewSet):
         user = self.request.user
         queryset = ProjectRequest.objects.filter(Q(sender=user) | Q(receiver=user))
 
-        req_type = self.request.query_params.get("type")
+        this_sender = self.request.query_params.get("sender")
+        this_receiver = self.request.query_params.get("receiver")
         status = self.request.query_params.get("status")
 
-        if req_type == "sender":
+        if this_sender and not status:
             queryset = ProjectRequest.objects.filter(sender=user)
-        elif req_type == "receiver":
+        elif this_receiver and not status:
             queryset = ProjectRequest.objects.filter(receiver=user)
-        elif status:
+        elif status and not this_receiver and not this_sender:
             queryset = queryset.filter(status=status)
+        elif this_sender and status:
+            queryset = ProjectRequest.objects.filter(sender=user, status=status)
+        elif this_receiver and status:
+            queryset = ProjectRequest.objects.filter(receiver=user, status=status)
         return queryset
     
     def get_permissions(self):
@@ -41,7 +46,7 @@ class ProjectRequestView(ModelViewSet):
 
         if obj.sender != user and obj.receiver != user:
             return ApiResponse.error(
-                message="شما دسترسی به این را ندارید"
+                message="شما دسترسی به این درخواست را ندارید"
             )
         return obj
 
@@ -56,7 +61,7 @@ class ProjectRequestView(ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return ApiResponse.success(
-            message="updated request successfully",
+            message="در خواست با موفقیت قبول شد",
             data=serializer.data
         )
     

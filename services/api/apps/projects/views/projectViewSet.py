@@ -16,8 +16,15 @@ class ProjectViewSet(ModelViewSet):
 
     def get_queryset(self):
         if self.action == "list":
-            employer = self.request.user
-            return Project.objects.filter(employer=employer)
+            user = self.request.user
+            queryset = Project.objects.filter(employer=self.request.user)
+            model = self.request.query_params.get("model")
+            employer = self.request.query_params.get("employer")
+            if model:
+                queryset = Project.objects.filter(model=user)
+            elif employer:
+                queryset = Project.objects.filter(employer=user)
+            return queryset
         return Project.objects.all().select_related("employer", "model", "category")
     
 

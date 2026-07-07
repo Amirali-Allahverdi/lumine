@@ -10,10 +10,11 @@ class ProjectEmployerListView(ListAPIView):
     permission_classes = [IsAuthenticated, IsEmployer]
 
     def get_queryset(self):
-        queryset = Project.objects.filter(employer=self.request.user)
+        user = self.request.user
+        queryset = Project.objects.filter(employer=user)
         status_param = self.request.query_params.get("status")
 
         if status_param:
-            queryset = Project.objects.filter(status=status_param, employer=self.request.user)
+            queryset = Project.objects.filter(status=status_param, employer=user)
 
         return queryset

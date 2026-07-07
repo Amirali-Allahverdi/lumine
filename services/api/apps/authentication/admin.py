@@ -70,3 +70,8 @@ class EmployerProfileAdmin(admin.ModelAdmin):
 @admin.register(InstructorProfile)
 class InstructorProfileAdmin(admin.ModelAdmin):
     list_display = ['user', 'workshop_types', 'certifications', 'years_of_experience', 'created', 'updated']
+
+
+@admin.register(Province)
+class ProvinceAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'slug', 'code']

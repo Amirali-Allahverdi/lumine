@@ -4,7 +4,7 @@ from .models import *
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ["id", "employer", "model", "name", "category", "status"]
+    list_display = ["id", "employer", "model", "name", "category", "moderation_status", "status"]
 
 
 @admin.register(ProjectRequest)
