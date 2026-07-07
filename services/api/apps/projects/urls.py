@@ -7,13 +7,13 @@ router = DefaultRouter()
 # روتر برای پروژه
 router.register("projects", ProjectViewSet, basename="projects")
 # روتر برای درخواست اهای پروژه
-router.register("project/requests", ProjectRequestView, basename="project_requests")
+router.register("requests", ProjectRequestView, basename="project_requests")
 
 
 # آدرس های پروژه
 urlpatterns = [
-    path("projects-employer", ProjectEmployerListView.as_view()),
-    path("projects-model", ProjectModelListView.as_view()),
+    path("employer", ProjectEmployerListView.as_view()),
+    path("model", ProjectModelListView.as_view()),
 ]
 
 urlpatterns += router.urls
