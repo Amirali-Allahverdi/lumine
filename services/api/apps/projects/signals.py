@@ -1,4 +1,4 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from .models import ProjectRequest, Project
 from django.db import transaction
@@ -16,6 +16,8 @@ def update_project_model_on_accept(sender, instance, created, **kwargs):
         # بررسی اینکه آیا پروژه قبلا توسط مدل دیگری گرفته شده
         if project.model:
             # اگر قبلاً مدل داشته، وضعیت درخواست فعلی باید به expired تغییر کند
+            if instance.status == "accepted":
+                return
             instance.status = "expired"
             instance.save(update_fields=["status"])
             return
@@ -37,3 +39,23 @@ def update_project_model_on_accept(sender, instance, created, **kwargs):
         ).exclude(id=instance.id).update(
             status="expired"
         )
+
+
+@receiver(pre_save, sender=Project)
+def set_open_status_on_approval(sender, instance, **kwargs):
+    """
+    قبل از ذخیره، چک کن اگر moderation_status به approved تغییر کرد، 
+    status را هم به open ست کن
+    """
+    if not instance.pk:  # پروژه جدید
+        return
+
+    try:
+        old_instance = Project.objects.get(pk=instance.pk)
+        if (old_instance.moderation_status != "approved" and 
+            instance.moderation_status == "approved" and 
+            instance.status == "draft"):
+            
+            instance.status = "open"
+    except Project.DoesNotExist:
+        pass

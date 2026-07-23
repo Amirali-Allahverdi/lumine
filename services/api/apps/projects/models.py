@@ -2,6 +2,7 @@ from django.db import models
 from apps.authentication.models import User, Category
 from django_jalali.db.models import jDateTimeField
 from core.validators.dateValidator import date_validator
+from apps.authentication.models import Province
 
 
 class Project(models.Model):
@@ -11,20 +12,31 @@ class Project(models.Model):
                               null=True, blank=True)
     
     # مسخصات پروژه
+    province = models.ForeignKey(Province, on_delete=models.PROTECT, related_name="projects")
     name = models.CharField(max_length=255)
     description = models.TextField()
     budget = models.PositiveIntegerField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="projects")
     start_date = models.CharField(max_length=10, validators=[date_validator])
     end_date = models.CharField(max_length=10, validators=[date_validator])
-    CHOICE_STATUS = [
-        ("pendding", "درحال بررسی"),
-        ("accept", "قبول شده"),
+    # بررسی وضعیت توسط ادمین
+    MODERATION_CHOICES = [
+        ("pending", "درحال بررسی"),
+        ("approved", "قبول شده"),
         ("rejected", "رد شده"),
-        ("in_progress", "در حال اجرا"),     
-        ("completed", "تکمیل شده")
     ]
-    status = models.CharField(max_length=20, choices=CHOICE_STATUS, default=CHOICE_STATUS[0][0])
+    moderation_status = models.CharField(max_length=20, choices=MODERATION_CHOICES, default=MODERATION_CHOICES[0][0])
+
+    # وضعیت چرخه حیات پروژه
+    STATUS_CHOICES = [
+        ("draft", "پیش نویس"),
+        ("open", "باز"),
+        ("in_progress", "در حال اجرا"),
+        ("completed", "تکمیل شده"),
+        ("closed", "بسته شده"),
+        ("cancelled", "لغو شده"),
+    ]
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="draft")
 
     # فیلدهای مستحب
     created = jDateTimeField(auto_now_add=True)
