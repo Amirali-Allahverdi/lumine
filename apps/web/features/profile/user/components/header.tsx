@@ -2,6 +2,7 @@ import React from "react";
 import { GetMeResponse } from "../types/me";
 import { Avatar } from "@heroui/react";
 import { getMediaUrl } from "@/shared/lib/media/get-media";
+import { getRoleLabel } from "@/shared/lib/get-role-label";
 
 interface ProfileHeaderProps {
   user: GetMeResponse;
@@ -24,7 +25,11 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       <div className="flex items-center justify-center sm:justify-start gap-4">
         <div className="flex items-center gap-4 sm:flex-row flex-col justify-center">
           <Avatar className="size-28 rounded-full">
-            <Avatar.Image alt={first_name || "User"} src={avatarUrl} />
+            <Avatar.Image
+              className="object-cover object-center"
+              alt={first_name || "User"}
+              src={avatarUrl}
+            />
             <Avatar.Fallback delayMs={600}>
               {first_name?.slice(0, 1)}
               {last_name?.slice(0, 1)}
@@ -43,7 +48,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                     key={group.id}
                     className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-50 text-primary-700 dark:bg-primary-950/40 dark:text-primary-300 border border-primary-100 dark:border-primary-900"
                   >
-                    {group.name}
+                    {getRoleLabel(group.name)}
                   </span>
                 ))}
               </div>

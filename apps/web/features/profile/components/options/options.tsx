@@ -1,4 +1,4 @@
-import { ProfileHeaderLinkBoxProps } from "../header-link-box";
+import { ProfileLinkProps } from "../sidebar-item";
 import {
   Lock,
   Person,
@@ -6,53 +6,65 @@ import {
   ArrowRightFromSquare,
   CircleQuestion,
   ShieldCheck,
+  PersonFill,
+  LockFill,
+  CircleQuestionFill,
+  Sliders,
 } from "@gravity-ui/icons";
 import { OptionItem } from "./option-item";
 import { Label, Surface } from "@heroui/react";
+import { QuickActions } from "./quick-actions/quick-actions";
 
-const profileOptions: ProfileHeaderLinkBoxProps[] = [
-  { href: "/", icon: <Person className="size-5" />, label: "اطلاعات کاربری" },
-  { href: "/", icon: <PersonNutHex className="size-5" />, label: "پشتیبانی" },
+const profileOptions: ProfileLinkProps[] = [
   {
-    href: "/",
-    icon: <ArrowRightFromSquare className="size-5" />,
-    label: "خروج",
+    href: "/profile/user",
+    icon: <PersonFill className="size-7" />,
+    label: "اطلاعات کاربری",
   },
+  { href: "/", icon: <LockFill className="size-7" />, label: "امنیت" },
 ];
 
-const helpOptions: ProfileHeaderLinkBoxProps[] = [
-  { href: "/", icon: <Lock className="size-5" />, label: "امنیت" },
+const helpOptions: ProfileLinkProps[] = [
+  { href: "/", icon: <Sliders className="size-7" />, label: "پشتیبانی" },
   {
     href: "/",
-    icon: <CircleQuestion />,
+    icon: <CircleQuestionFill className="size-7" />,
     label: "سوالات متداول",
-  },
-  {
-    href: "/",
-    icon: <ShieldCheck />,
-    label: "حریم خصوصی",
   },
 ];
 
 export const ProfileOptions = () => {
   return (
-    <>
-      <Surface variant="transparent" className="flex flex-col gap-4">
-        <Label className="mr-2 text-xl">حساب</Label>
-        <ul className="p-2 shadow-2xl border-border border bg-surface-primary-light dark:bg-surface-primary-dark rounded-4xl">
+    <section className="flex flex-col gap-4 w-full">
+      <header>
+        <QuickActions />
+      </header>
+      <Surface
+        variant="transparent"
+        className="flex p-2 shadow-2xl bg-card rounded-4xl flex-col w-full"
+      >
+        <Label className="mt-2 mr-4 text-text-placeholder-light dark:text-text-placeholder-dark text-medium">
+          حساب
+        </Label>
+        <ul className="">
           {profileOptions.map((option, i) => (
             <OptionItem key={i} {...option} />
           ))}
         </ul>
       </Surface>
-      <Surface variant="transparent" className="flex mb-36 flex-col gap-4">
-        <Label className="mr-2 text-xl">کمک رسانی</Label>
-        <ul className="p-2 shadow-2xl border-border border bg-surface-primary-light dark:bg-surface-primary-dark rounded-4xl">
+      <Surface
+        variant="transparent"
+        className="flex p-2 shadow-2xl bg-card rounded-4xl flex-col w-full"
+      >
+        <Label className="mt-2 mr-4 text-text-placeholder-light dark:text-text-placeholder-dark text-medium">
+          کمک رسانی
+        </Label>
+        <ul className="">
           {helpOptions.map((option, i) => (
             <OptionItem key={i} {...option} />
           ))}
         </ul>
       </Surface>
-    </>
+    </section>
   );
 };

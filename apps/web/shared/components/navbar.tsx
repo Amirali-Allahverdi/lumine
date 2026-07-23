@@ -11,6 +11,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useMe } from "@/features/profile/hooks/mutations/use-me";
 import { getMediaUrl } from "../lib/media/get-media";
 import { useAuthStore } from "@/features/auth/store/auth_1";
+import { getRoleLabel } from "../lib/get-role-label";
 
 export const Navbar = () => {
   const pathname = usePathname();
@@ -68,7 +69,11 @@ export const Navbar = () => {
         <Dropdown>
           <Dropdown.Trigger className="rounded-full">
             <Avatar size="sm">
-              <Avatar.Image alt={data?.first_name || "User"} src={avatarUrl} />
+              <Avatar.Image
+                className="object-cover object-center"
+                alt={data?.first_name || "User"}
+                src={avatarUrl}
+              />
               <Avatar.Fallback delayMs={600}>
                 {data?.first_name?.slice(0, 1)}
                 {data?.last_name?.slice(0, 1)}
@@ -78,16 +83,6 @@ export const Navbar = () => {
           <Dropdown.Popover>
             <div className="px-3 pt-3 pb-1">
               <div className="flex items-center gap-2">
-                <Avatar size="sm">
-                  <Avatar.Image
-                    alt={data?.first_name || "User"}
-                    src={avatarUrl}
-                  />
-                  <Avatar.Fallback delayMs={600}>
-                    {data?.first_name?.slice(0, 1)}
-                    {data?.last_name?.slice(0, 1)}
-                  </Avatar.Fallback>
-                </Avatar>
                 <div className="flex flex-col gap-0">
                   <p className="text-sm leading-5 font-medium">
                     {data?.first_name} {data?.last_name}
@@ -97,7 +92,7 @@ export const Navbar = () => {
                   </p>
                   <p className="text-xs leading-none text-muted">
                     {data?.groups?.map((role) => (
-                      <span key={role.id}>{role.name}</span>
+                      <span key={role.id}>{getRoleLabel(role.name)}،</span>
                     ))}
                   </p>
                 </div>
